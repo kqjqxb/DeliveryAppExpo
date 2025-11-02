@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectRestaurant } from '../features/restaurantSlice';
 import { addToBasket, removeFromBasket, selectBasketItemsWithId, selectBasketTotal, clearBasket } from '../features/basketSlice';
 import { ArrowLeftIcon, MinusCircleIcon, PlusCircleIcon, XMarkIcon } from 'react-native-heroicons/outline';
-import Currency from 'react-currency-formatter';
+// import Currency from 'react-currency-formatter';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'; 
 import { db, auth } from '../firebase'; // Ensure Firebase is correctly configured
 import { urlFor } from '../sanity';
@@ -119,7 +119,8 @@ const DishDetailScreen = () => {
             </View>
             
             <Text className="text-xl text-gray-700 mt-2">
-              <Currency quantity={price} currency="UAH" />
+              {/* <Currency quantity={price} currency="UAH" /> */}
+              {price} UAH
             </Text>
             <Text className="text-gray-600 mt-4">{description}</Text>
           </View>

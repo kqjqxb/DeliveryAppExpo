@@ -35,7 +35,7 @@
 //                   <Text className="text-white">Log out</Text>
 //                 </TouchableOpacity>
 //               </View>
-      
+
 //               <View>
 //                 <TouchableOpacity
 //                   onPress={navigation.goBack}
@@ -45,7 +45,7 @@
 //                 </TouchableOpacity>
 //               </View>
 //             </View>
-      
+
 //             {/* Profile Info Section */}
 //             <View className="flex-row items-center flex-1 space-x-7 ml-14" style={{marginTop: 120}}>
 //               <Image
@@ -58,19 +58,19 @@
 //               </View>
 //             </View>
 //           </SafeAreaView>
-      
+
 //           <View className="flex-row items-center space-x-4 px-4 py-3 my-5">
-      
+
 //             <Text className="flex-1 text-xl font-bold">My orders:</Text>
 //           </View>
-      
+
 //           <ScrollView className="divide-y divide-gray-200">
 //           <Text>1st order</Text>
 //           <Text>1st order</Text>
 //           <Text>1st order</Text>
 
 //           </ScrollView>
-      
+
 //           <View className="p-5 bg-white mt-5 space-y-4">
 //             <View className="flex-row justify-between">
 //               <Text className="text-gray-400">Subtotal</Text>
@@ -78,21 +78,21 @@
 //                 <Currency quantity={1000} currency="UAH" />
 //               </Text>
 //             </View>
-      
+
 //             <View className="flex-row justify-between">
 //               <Text className="text-gray-400">Delivery Fee</Text>
 //               <Text className="text-gray-400">
 //                 <Currency quantity={35} currency="UAH" />
 //               </Text>
 //             </View>
-      
+
 //             <View className="flex-row justify-between">
 //               <Text>Order Total</Text>
 //               <Text className="font-extrabold">
 //                 <Currency quantity={1000 + 35} currency="UAH" />
 //               </Text>
 //             </View>
-      
+
 //             <TouchableOpacity
 //               onPress={() => navigation.navigate('PreparingOrderScreen')}
 //               className="rounded-lg bg-[#00CCBB] p-4"
@@ -102,12 +102,12 @@
 //           </View>
 //         </View>
 //       </View>
-      
 
 
 
 
-              
+
+
 //     );
 // };
 
@@ -196,7 +196,7 @@
 //                                 <Text className="text-white">Log out</Text>
 //                             </TouchableOpacity>
 //                         </View>
-                
+
 //                         <View>
 //                             <TouchableOpacity
 //                                 onPress={() => navigation.goBack()}
@@ -206,7 +206,7 @@
 //                             </TouchableOpacity>
 //                         </View>
 //                     </View>
-                
+
 //                     {/* Profile Info Section */}
 //                     <View className="flex-row items-center flex-1 space-x-7 ml-14" style={{ marginTop: 120 }}>
 //                         <Image
@@ -224,7 +224,7 @@
 //                     <View className="flex-row items-center space-x-4 px-4 py-3 my-5">
 //                         <Text className="flex-1 text-xl font-bold">My orders:</Text>
 //                     </View>
-                    
+
 //                     <ScrollView className="divide-y divide-gray-200">
 //                         {orders.map(order => (
 //                             <TouchableOpacity
@@ -238,8 +238,8 @@
 //                         ))}
 //                     </ScrollView>
 //                 </View>
-                
-                
+
+
 //             </View>
 //         </View>
 //     );
@@ -263,15 +263,16 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Image, Alert, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import { ArrowLeftIcon, Cog8ToothIcon } from 'react-native-heroicons/outline';
 import { useNavigation } from '@react-navigation/native';
-import { getAuth, signOut } from 'firebase/auth';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-import Currency from 'react-currency-formatter';
+import { signOut } from 'firebase/auth';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+// import Currency from 'react-currency-formatter';
 import { useTranslation } from 'react-i18next';
 
 const CompletedProfileScreen = () => {
     const navigation = useNavigation();
-    const auth = getAuth();
-    const db = getFirestore();
+    // use auth and db instances exported from ../firebase (initialized with React Native persistence)
+    // const auth and db are imported above
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -340,7 +341,7 @@ const CompletedProfileScreen = () => {
                         <ArrowLeftIcon size={28} color={'#0C4F39'} />
                     </TouchableOpacity>
                 </View>
-                
+
                 <View className="flex-row items-center space-x-7 mt-20 ml-10">
                     <Image
                         className="w-20 h-20 border-4 border-white rounded-full"
@@ -349,7 +350,7 @@ const CompletedProfileScreen = () => {
                     <View>
                         <Text className="font-extrabold text-xl text-white">Maksym Maksym</Text>
                         <View className="flex-row items-center pt-2">
-                            <Text className="text-white">{t("role")} • </Text>  
+                            <Text className="text-white">{t("role")} • </Text>
                             <TouchableOpacity
                                 onPress={handleLogout}
                                 className="bg-[#FAFAFF] p-2 rounded-full ml-2"
@@ -361,7 +362,7 @@ const CompletedProfileScreen = () => {
                 </View>
             </View>
 
-            
+
             {/* Orders Section */}
             <View className="flex-1 p-4">
                 <Text className="text-xl text-[#30343F] font-bold mb-4">{t("my_orders")}:</Text>
@@ -398,7 +399,10 @@ const CompletedProfileScreen = () => {
                                     />
                                     <View className="flex-1">
                                         <Text className="font-bold text-lg text-[#0C4F39]">{order.restaurant}</Text>
-                                        <Text className="font-bold">{t("total")}: <Currency quantity={order.totalAmount} currency="UAH" /></Text>
+                                        <Text className="font-bold">
+                                            {/* {t("total")}: <Currency quantity={order.totalAmount} currency="UAH" /> */}
+                                            {t("total")}: {order.totalAmount} UAH
+                                        </Text>
                                         <Text className="text-gray-600">
                                             {t("date")}: {new Date(order.createdAt.toDate()).toLocaleDateString('uk-UA', { day: 'numeric', month: 'numeric', year: 'numeric' })}
                                         </Text>
@@ -414,7 +418,8 @@ const CompletedProfileScreen = () => {
                     <View className="p-4 bg-[#FAFAFF] border-t border-gray-200 mt-4 flex-row bottom-3">
                         <Text className="font-bold text-xl flex-1">{t("total_amount")}:</Text>
                         <Text className="text-lg">
-                            <Currency quantity={totalAmount} currency="UAH" />
+                            {/* <Currency quantity={totalAmount} currency="UAH" /> */}
+                            {totalAmount} UAH
                         </Text>
                     </View>
                 )}

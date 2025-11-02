@@ -156,7 +156,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectRestaurant } from '../features/restaurantSlice';
 import { removeFromBasket, selectBasketItems, selectBasketTotal, clearBasket } from '../features/basketSlice';
 import { XCircleIcon } from 'react-native-heroicons/solid';
-import Currency from 'react-currency-formatter';
+// import Currency from 'react-currency-formatter';
 import { doc, setDoc, addDoc, collection, serverTimestamp } from 'firebase/firestore'; 
 import { db, auth } from '../firebase'; // Імпортуй конфігурацію Firebase
 import { urlFor } from '../sanity';
@@ -267,7 +267,8 @@ const BasketScreen = () => {
               />
               <Text className="flex-1">{items[0].name}</Text>
               <Text className="text-gray-600">
-                <Currency quantity={items[0]?.price} currency='UAH' />
+                {/* <Currency quantity={items[0]?.price} currency='UAH' /> */}
+                {items[0]?.price}
               </Text>
               <TouchableOpacity>
                 <Text className="text-[#00CCBB] text-xs"
@@ -284,21 +285,24 @@ const BasketScreen = () => {
           <View className="flex-row justify-between">
             <Text className="text-gray-400">{t("Subtotal")}</Text>
             <Text className="text-gray-400">
-              <Currency quantity={basketTotal} currency='UAH' />
+              {/* <Currency quantity={basketTotal} currency='UAH' /> */}
+              {basketTotal}
             </Text>
           </View>
 
           <View className="flex-row justify-between">
             <Text className="text-gray-400">{t("Delivery_Fee")}</Text>
             <Text className="text-gray-400">
-              <Currency quantity={35} currency='UAH' />
+              {/* <Currency quantity={35} currency='UAH' /> */}
+              {35}
             </Text>
           </View>
 
           <View className="flex-row justify-between">
             <Text>{t("Order_Total")}</Text>
             <Text className="font-extrabold">
-              <Currency quantity={basketTotal + 35} currency='UAH' />
+              {/* <Currency quantity={basketTotal + 35} currency='UAH' /> */}
+              {basketTotal + 35}
             </Text>
           </View>
 
