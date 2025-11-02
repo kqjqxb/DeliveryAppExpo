@@ -1,0 +1,129 @@
+{
+    "total_amount": "Total amount",
+    "currensy": "$",
+    "monday": "Monday",
+    "tuesday": "Tuesday",
+    "wednesday": "Wednesday",
+    "thursday": "Thursday",
+    "friday": "Friday",
+    "saturday": "Saturday",
+    "sunday": "Sunday",
+    "Error": "Error",
+    "Success": "Success",
+    "Email": "Email",
+    "Password": "Password",
+
+
+
+
+    "deliver_now": "Deliver Now!",
+    "current_location": "Current Location",
+    "restaurants_and_cuisines": "Restaurants and cuisines",
+    "delivery": "delivery",
+
+
+
+
+    "greeting": "Hello",
+    "select_language": "Select language",
+    "food_quote": "Food brings together",
+    "account_settings": "Account settings",
+    "name": "Name",
+    "phone_number": "Phone number",
+    "email": "Email",
+    "my_address": "My adress",
+    "notifications": "Notifications",
+    "password": "Password",
+    "language": "Language",
+    "all_rights_reserved": "All rights reserved",
+    "created_by": "Created by",
+    "maksym_lomakin": "Maksym Lomakin",
+    "follow_us": "Follow us",
+    "ok": "OK",
+    "cancel": "Cancel",
+
+
+
+
+    "role": "Customer",
+    "my_orders": "My orders",
+    "total": "Total",
+    "date": "Date",
+    "log_out": "Log out",
+    "zero_orders_text": "You haven't ordered anything yet😔",
+
+
+
+
+    "order_from": "Order from",
+
+
+
+
+    "more_detail": "More Detail",
+    "have_a_food_allergy": "Have a food allery?",
+    "View_Basket": "View Basket",
+    
+    "no_coordinates_of_restaurant": "The coordinates of the restaurant have not been determined.",
+    "call_error": "Call error:",
+    "open_map_error": "Error opening map:",
+    "closed": "Closed",
+    "not_specified": "Not specified",
+    "show_on_map": "Show on the map",
+    "delivery_options": "Delivery options",
+    "Delivery": "Delivery",
+    "Pre-order": "Pre-order",
+    "Contacts": "Contacts",
+    "Address": "Address",
+    "Phone": "Phone",
+    "Call": "Call",
+    "Hours_of_operation": "Open for delivery orders",
+
+
+    "Choose_Additions": "Choose Additions",
+    "Add_your_favorite_extras_here": "Add your favorite extras here!",
+    "Total_price": "Total price",
+    "Add_to_Basket": "Add to Basket",
+    
+
+    "Please_log_in_to_place_an_order": "Please log in to place an order",
+    "Failed_to_place_order": "Failed to place order",
+    "Basket": "Basket",
+    "Deliver_in": "Deliver in 10-19 min",
+    "min": "min",
+    "Change": "Change",
+    "Remove": "Remove",
+    "Subtotal": "Subtotal",
+    "Delivery_Fee": "Delivery Fee",
+    "Order_Total": "Order Total",
+    "Place_Order": "Place Order",
+
+
+
+    "Almost_there": "Almost there!",
+    "Sign_up_or_log_in_to_continue": "Sign up or log in to continue",
+    "It_only_takes_a_minute": "It only takes a minute",
+    "Continue_with_Apple": "Continue with Apple",
+    "Continue_with_Google": "Continue with Google",
+    "Continue_with_Facebook": "Continue with Facebook",
+    "Continue_with_email": "Continue with email",
+    "Continue_with_phone": "Continue with phone",
+
+    "Log_in_or_sign_up_to_order": "Log in to order!",
+    "Register_and_go_to_order": "Register and go to order!",
+    "Passwords_do_not_match": "Passwords do not match!",
+    "Account_created_successfully": "Account created successfully! Please verify your email.",
+    "Please_verify_your_email": "Please verify your email address before logging in.",
+    "Logged_in_successfully": "Logged in successfully!",
+    "Enter_your_email": "Enter your email",
+    "Enter_your_password": "Enter your password",
+    "Confirm_your_password": "Confirm your password",
+    "Confirm_Password": "Confirm Password:",
+    "Register": "Register",
+    "Login": "Login",
+    "Already_have_an_account": "Already have an account?",
+    "Do_you_not_have_an_account": "Do you not have an account?",
+    "No_extras_available": "No extras available",
+    "Cannot_open_URL": "Cannot open URL"
+  }
+  
