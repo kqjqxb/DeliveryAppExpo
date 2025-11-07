@@ -290,7 +290,7 @@ const CompletedProfileScreen = () => {
                 const userOrders = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setOrders(userOrders);
             } catch (error) {
-                Alert.alert('Error', 'An error occurred while fetching orders.');
+                // Alert.alert('Error', 'An error occurred while fetching orders.');
             } finally {
                 setLoading(false);
                 setRefreshing(false); // Stop refreshing animation
