@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,7 +28,9 @@ const DishDetailScreen = () => {
     // If you need to set the restaurant or perform other side effects, do it here
   }, [dispatch]);
 
-  const items = useSelector((state) => selectBasketItemsWithId(state, id));
+  // Create a memoized selector instance for this dish id
+  const selectItemsForId = useMemo(() => selectBasketItemsWithId(id), [id]);
+  const items = useSelector(selectItemsForId);
 
   const addItemToBasket = () => {
     dispatch(addToBasket({ id, title, description, price, imgUrl }));

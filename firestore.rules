@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Правила для колекції Orders
+    match /Orders/{orderId} {
+      // Create: тільки авторизований користувач та тільки з userId == його uid
+      allow create: if request.auth != null
+                    && request.auth.uid == request.resource.data.userId
+                    // базова перевірка присутності полів і типів
+                    && request.resource.data.keys().hasAll(['userId', 'restaurant', 'items', 'totalAmount', 'createdAt'])
+                    && request.resource.data.userId is string
+                    && request.resource.data.restaurant is string
+                    && request.resource.data.items is list
+                    && (request.resource.data.totalAmount is int || request.resource.data.totalAmount is float);
+
+      // Read (get/list): власник може читати свої замовлення; admin може читати все
+      allow read: if request.auth != null && (
+                    request.auth.uid == resource.data.userId
+                    || request.auth.token.admin == true
+                  );
+
+      // Забороняємо оновлення/видалення з клієнта (за потреби змінити)
+      allow update, delete: if false;
+    }
+
+    // Правила для підколекції users/{userId}/orders/{orderId} (якщо ви вирішите її використовувати)
+    match /users/{userId}/orders/{orderId} {
+      allow create: if request.auth != null
+                    && request.auth.uid == userId
+                    && request.resource.data.userId == userId;
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+
+    // Приклади для інших колекцій: дозволити читати перелік ресторанів всім
+    match /restaurants/{restId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // За замовчуванням — відмовити
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

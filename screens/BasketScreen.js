@@ -212,18 +212,14 @@ const BasketScreen = () => {
     try {
       // Додаємо замовлення в колекцію Orders
       const orderRef = await addDoc(collection(db, 'Orders'), orderData);
-  
-      // Додаємо замовлення в підколекцію orders користувача
-      const userOrdersRef = doc(db, 'users', user.uid);
-      await setDoc(doc(userOrdersRef, 'orders', orderRef.id), {
-        ...orderData,
-        orderId: orderRef.id, // Додаємо ідентифікатор замовлення для відслідковування
-      });
+      // Залишаємо лише запис у загальній колекції Orders.
+      // Якщо потрібно зберігати у users/{uid}/orders — оновіть правила Firestore або додайте серверну функцію.
   
       dispatch(clearBasket()); // Очищення корзини
       navigation.navigate("PreparingOrderScreen");
     } catch (error) {
       console.error('Error adding order: ', error);
+      console.error('Firestore error code:', error.code);
       Alert.alert(`${t("Error")}`, `${t("Failed_to_place_order")}`);
     }
   };

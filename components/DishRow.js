@@ -81,7 +81,7 @@
 
 // DishRow.js
 import { View, Text, TouchableOpacity, Image } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 // import Currency from 'react-currency-formatter';
 import { urlFor } from '../sanity';
 import { MinusCircleIcon, PlusCircleIcon } from 'react-native-heroicons/solid';
@@ -93,7 +93,8 @@ const DishRow = ({ id, name, description, price, image }) => {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
   const dispatch = useDispatch();
-  const items = useSelector((state) => selectBasketItemsWithId(state, id));
+  const selectItemsForId = useMemo(() => selectBasketItemsWithId(id), [id]);
+  const items = useSelector(selectItemsForId);
 
   const addItemToBasket = () => {
     dispatch(addToBasket({ id, name, description, price, image }));
