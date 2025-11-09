@@ -158,7 +158,7 @@ import FoodCategoriesForRestScreen from '../components/FoodCategoriesForRestScre
 import { useDispatch } from 'react-redux';
 import { setRestaurant } from '../features/restaurantSlice';
 import sanityClient from '../sanity';
-import { findNodeHandle } from 'react-native';
+import { findNodeHandle, UIManager } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 const RestaurantScreen = () => {
@@ -241,13 +241,16 @@ const RestaurantScreen = () => {
 
   const handleCategoryPress = (categoryName) => {
     setActiveCategory(categoryName);
-    const view = categoryRefs.current[categoryName];
-    if (view) {
-      view.measureLayout(
-        findNodeHandle(scrollViewRef.current),
-        (x, y, width, height) => {
-          scrollViewRef.current.scrollTo({ y: y - 125, animated: true });
-        }
+    const node = categoryRefs.current[categoryName];
+    const scrollNode = findNodeHandle(scrollViewRef.current);
+    if (node && scrollNode) {
+      UIManager.measureLayout(
+        node,
+        scrollNode,
+        (left, top, width, height) => {
+          scrollViewRef.current.scrollTo({ y: top - 125, animated: true });
+        },
+        (error) => console.warn('measureLayout error', error)
       );
     }
   };
@@ -256,15 +259,18 @@ const RestaurantScreen = () => {
     const contentOffsetY = event.nativeEvent.contentOffset.y;
   
     Object.keys(categoryRefs.current).forEach((categoryName) => {
-      const view = categoryRefs.current[categoryName];
-      view.measureLayout(
-        findNodeHandle(scrollViewRef.current),
-        (x, y, width, height) => {
-          // Перевіряємо, чи категорія активна
-          if (y < contentOffsetY + 300 && y + height > contentOffsetY + 300) {
+      const node = categoryRefs.current[categoryName];
+      const scrollNode = findNodeHandle(scrollViewRef.current);
+      if (!node || !scrollNode) return;
+      UIManager.measureLayout(
+        node,
+        scrollNode,
+        (left, top, width, height) => {
+          if (top < contentOffsetY + 300 && top + height > contentOffsetY + 300) {
             setActiveCategory(categoryName);
           }
-        }
+        },
+        (error) => {} // можна логувати помилку при потребі
       );
     });
   };
@@ -331,7 +337,14 @@ const RestaurantScreen = () => {
         {/* Список страв */}
         <ScrollView className="top-5 pb-10">
           {categories.map((category) => (
-            <View key={category._id} ref={el => categoryRefs.current[category.name] = el} className="mb-0">
+            <View
+              key={category._id}
+              ref={el => {
+                // зберігаємо нативний handle для UIManager.measureLayout
+                categoryRefs.current[category.name] = findNodeHandle(el);
+              }}
+              className="mb-0"
+            >
               <Text className="font-bold text-2xl ml-3 pb-4 pt-4 px-4">{category.name}</Text>
               <View className="flex-row flex-wrap justify-between px-4">
                 {groupedDishes[category.name]?.map(dish => (
