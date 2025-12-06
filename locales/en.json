@@ -133,5 +133,9 @@
     "is_being_prepared": "is being prepared",
     "Order_Help": "Order Help",
     "Deliver_1": "Deliver 1",
-    "Your_Rider": "Your Rider"
+    "Your_Rider": "Your Rider",
+    "guest": "Guest",
+    "enter_name": "Enter your name",
+    "name_placeholder": "Name in profile",
+    "save": "Save"
   }

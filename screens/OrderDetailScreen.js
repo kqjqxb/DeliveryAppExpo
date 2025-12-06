@@ -64,7 +64,7 @@
 
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, Image, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { ArrowLeftIcon } from 'react-native-heroicons/outline';
 import { useTranslation } from 'react-i18next';
 
@@ -90,13 +90,15 @@ const OrderDetailScreen = ({ route }) => {
 
   // Групуємо страви
   const groupedItems = groupItemsByName(order.items);
+  const dimensions = Dimensions.get('window');
 
   return (
     <ScrollView>
       <View className="relative">
         <Image 
           source={{ uri: order.restaurantImage }}
-          className="w-full h-56 bg-gray-300 p-4"
+          className="w-full h-56 bg-gray-300"
+          resizeMode='cover'
         />
 
         <TouchableOpacity onPress={() => navigation.goBack()} className="absolute top-14 left-5 p-2 bg-gray-100 rounded-full">

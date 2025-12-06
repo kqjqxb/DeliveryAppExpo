@@ -7,13 +7,43 @@ import { ArrowLeftIcon, UserIcon, PhoneIcon, EnvelopeIcon, MapPinIcon, BellIcon,
 import i18n from 'i18next'; // Імпорт для i18next
 import { useTranslation } from 'react-i18next';
 import LanguageModal from '../components/LanguageModal'; // Імпортуємо компонент LanguageModal
+import NameModal from '../components/NameModal'; // New modal for name change
 import '../i18n'; 
+import { auth, db } from '../firebase';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
   const restaurant = useSelector(selectRestaurant);
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isNameModalVisible, setNameModalVisible] = useState(false);
+  const [userName, setUserName] = useState('');
   const { t } = useTranslation();
+
+  // Fetch user name from Firestore
+  const fetchName = async () => {
+    const user = auth.currentUser;
+    console.log('fetchName: currentUser', user);
+    if (user) {
+      try {
+        const userDoc = await getDoc(doc(db, 'Users', user.uid));
+        console.log('fetchName: userDoc.exists()', userDoc.exists());
+        if (userDoc.exists()) {
+          setUserName(userDoc.data().name || '');
+          console.log('fetchName: name', userDoc.data().name);
+        } else {
+          setUserName('');
+          console.log('fetchName: no userDoc');
+        }
+      } catch (err) {
+        console.log('fetchName: error', err);
+      }
+    }
+  };
+
+  React.useEffect(() => {
+    fetchName();
+  }, []);
 
   const handleCall = () => {
     const phoneNumber = `+380995659254`;
@@ -29,6 +59,26 @@ const SettingsScreen = () => {
     } else {
       console.log(`${t("Cannot_open_URL")}: ${url}`);
     }
+  };
+
+  // Handler to update name in Firestore and update UI
+  const handleSaveName = async (newName) => {
+    console.log('handleSaveName: newName', newName);
+    const user = auth.currentUser;
+    console.log('handleSaveName: currentUser', user);
+    if (user) {
+      try {
+        await setDoc(doc(db, 'Users', user.uid), { name: newName }, { merge: true });
+        console.log('handleSaveName: setDoc success');
+        await fetchName();
+      } catch (err) {
+        console.log('handleSaveName: setDoc error', err);
+      }
+    } else {
+      console.log('handleSaveName: no user');
+    }
+    setNameModalVisible(false);
+    console.log('handleSaveName: modal closed');
   };
 
   return (
@@ -62,7 +112,12 @@ const SettingsScreen = () => {
 
             {/* Icon list */}
             {[
-              { label: t('name'), icon: <UserIcon size={24} color="#0C4F39" /> },
+              { 
+                label: t('name'), 
+                value: userName || t('guest'), 
+                icon: <UserIcon size={24} color="#0C4F39" />, 
+                onPress: () => setNameModalVisible(true) 
+              },
               { label: t('phone_number'), icon: <PhoneIcon size={24} color="#0C4F39" /> },
               { label: t('email'), icon: <EnvelopeIcon size={24} color="#0C4F39" /> },
               { label: t('my_address'), icon: <MapPinIcon size={24} color="#0C4F39" /> },
@@ -79,10 +134,22 @@ const SettingsScreen = () => {
                   {item.icon}
                   <Text className="ml-3 text-lg font-semibold text-gray-700">{item.label}</Text>
                 </View>
+                {item.value && <Text className="text-gray-500">{item.value}</Text>}
               </TouchableOpacity>
             ))}
           </View>
         </View>
+
+        {/* Name change modal */}
+        <NameModal
+          isVisible={isNameModalVisible}
+          onClose={() => {
+            setNameModalVisible(false);
+            console.log('NameModal: closed by user');
+          }}
+          onSave={handleSaveName}
+          initialName={userName}
+        />
 
         {/* Використовуємо компонент LanguageModal */}
         <LanguageModal

@@ -138,7 +138,7 @@ const RestaurantScreen = () => {
         onScroll={handleScroll}
       >
         <View className="relative">
-          <Image source={{ uri: urlFor(imgUrl).url() }} className="w-full h-56 bg-gray-300 p-4" />
+          <Image source={{ uri: urlFor(imgUrl).url() }} className="w-full h-56 bg-gray-300" />
           <TouchableOpacity onPress={navigation.goBack} className="absolute top-14 left-5 p-2 bg-gray-100 rounded-full">
             <ArrowLeftIcon size={20} color={'#0C4F39'} />
           </TouchableOpacity>

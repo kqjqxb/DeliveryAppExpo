@@ -1,281 +1,18 @@
-// import React from 'react';
-// import { View, Text, SafeAreaView, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
-// import { ArrowLeftIcon } from 'react-native-heroicons/outline';
-// import { useNavigation } from '@react-navigation/native';
-// import { getAuth, signOut } from 'firebase/auth';
-// import Currency from 'react-currency-formatter';
-
-// const CompletedProfileScreen = () => {
-//     const navigation = useNavigation();
-//     const auth = getAuth();
-
-//     const handleLogout = async () => {
-//         try {
-//             await signOut(auth);
-//             navigation.replace('Profile'); // Navigate to ProfileScreen after logout
-//         } catch (error) {
-//             Alert.alert('Logout Error', 'An error occurred while logging out.');
-//         }
-//     };
-
-//     return (
-//         <View className="flex-1 bg-white">
-//         <View className="flex-1 bg-[#d6f9f6]">
-//           <SafeAreaView
-//             className="flex-1 p-5 border-b border-[#0C4F39] bg-[#0C4F39] shadow-xs rounded-3xl -mt-12"
-//             style={{ height: '500' }}
-//           >
-//             <View>
-//               {/* Logout Button */}
-//               <View className="absolute top-14 right-5 z-50">
-//                 <TouchableOpacity
-//                   onPress={handleLogout}
-//                   className="bg-[#0C4F39] p-2 rounded-full"
-//                 >
-//                   <Text className="text-white">Log out</Text>
-//                 </TouchableOpacity>
-//               </View>
-
-//               <View>
-//                 <TouchableOpacity
-//                   onPress={navigation.goBack}
-//                   className="absolute top-14 left-5 p-2 bg-[#0C4F39] rounded-full"
-//                 >
-//                   <ArrowLeftIcon size={28} color={'white'} />
-//                 </TouchableOpacity>
-//               </View>
-//             </View>
-
-//             {/* Profile Info Section */}
-//             <View className="flex-row items-center flex-1 space-x-7 ml-14" style={{marginTop: 120}}>
-//               <Image
-//                 className="w-20 h-20 border-4 border-white rounded-full"
-//                 source={require('../assets/avatar_profile_icon.png')}
-//               />
-//               <View>
-//                 <Text className="font-extrabold text-xl">Maksym Maksym</Text>
-//                 <Text className="text-gray-500">Customer</Text>
-//               </View>
-//             </View>
-//           </SafeAreaView>
-
-//           <View className="flex-row items-center space-x-4 px-4 py-3 my-5">
-
-//             <Text className="flex-1 text-xl font-bold">My orders:</Text>
-//           </View>
-
-//           <ScrollView className="divide-y divide-gray-200">
-//           <Text>1st order</Text>
-//           <Text>1st order</Text>
-//           <Text>1st order</Text>
-
-//           </ScrollView>
-
-//           <View className="p-5 bg-white mt-5 space-y-4">
-//             <View className="flex-row justify-between">
-//               <Text className="text-gray-400">Subtotal</Text>
-//               <Text className="text-gray-400">
-//                 <Currency quantity={1000} currency="UAH" />
-//               </Text>
-//             </View>
-
-//             <View className="flex-row justify-between">
-//               <Text className="text-gray-400">Delivery Fee</Text>
-//               <Text className="text-gray-400">
-//                 <Currency quantity={35} currency="UAH" />
-//               </Text>
-//             </View>
-
-//             <View className="flex-row justify-between">
-//               <Text>Order Total</Text>
-//               <Text className="font-extrabold">
-//                 <Currency quantity={1000 + 35} currency="UAH" />
-//               </Text>
-//             </View>
-
-//             <TouchableOpacity
-//               onPress={() => navigation.navigate('PreparingOrderScreen')}
-//               className="rounded-lg bg-[#0C4F39] p-4"
-//             >
-//               <Text className="text-center text-white text-lg">Place Order</Text>
-//             </TouchableOpacity>
-//           </View>
-//         </View>
-//       </View>
-
-
-
-
-
-
-//     );
-// };
-
-// export default CompletedProfileScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import { View, Text, SafeAreaView, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
-// import { ArrowLeftIcon } from 'react-native-heroicons/outline';
-// import { useNavigation } from '@react-navigation/native';
-// import { getAuth, signOut } from 'firebase/auth';
-// import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
-// import Currency from 'react-currency-formatter';
-
-// const CompletedProfileScreen = () => {
-//     const navigation = useNavigation();
-//     const auth = getAuth();
-//     const db = getFirestore();
-//     const [orders, setOrders] = useState([]);
-
-//     // Fetch all orders for the current user
-//     useEffect(() => {
-//         const fetchOrders = async () => {
-//             const user = auth.currentUser;
-//             if (user) {
-//                 try {
-//                     const q = query(collection(db, 'Orders'), where('userId', '==', user.uid));
-//                     const querySnapshot = await getDocs(q);
-//                     const userOrders = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-//                     setOrders(userOrders);
-//                 } catch (error) {
-//                     Alert.alert('Error', 'An error occurred while fetching orders.');
-//                 }
-//             }
-//         };
-
-//         fetchOrders();
-//     }, []);
-
-//     const handleLogout = async () => {
-//         try {
-//             await signOut(auth);
-//             navigation.replace('Profile'); // Navigate to ProfileScreen after logout
-//         } catch (error) {
-//             Alert.alert('Logout Error', 'An error occurred while logging out.');
-//         }
-//     };
-
-//     return (
-//         <View className="flex-1 bg-white">
-//             <View className="flex-1 bg-[#d6f9f6]">
-//                 <SafeAreaView
-//                     className="flex-1 p-5 border-b border-[#0C4F39] bg-[#0C4F39] shadow-xs rounded-3xl -mt-12"
-//                     style={{ height: '500' }}
-//                 >
-//                     <View>
-//                         {/* Logout Button */}
-//                         <View className="absolute top-14 right-5 z-50">
-//                             <TouchableOpacity
-//                                 onPress={handleLogout}
-//                                 className="bg-[#0C4F39] p-2 rounded-full"
-//                             >
-//                                 <Text className="text-white">Log out</Text>
-//                             </TouchableOpacity>
-//                         </View>
-
-//                         <View>
-//                             <TouchableOpacity
-//                                 onPress={() => navigation.goBack()}
-//                                 className="absolute top-14 left-5 p-2 bg-[#0C4F39] rounded-full"
-//                             >
-//                                 <ArrowLeftIcon size={28} color={'white'} />
-//                             </TouchableOpacity>
-//                         </View>
-//                     </View>
-
-//                     {/* Profile Info Section */}
-//                     <View className="flex-row items-center flex-1 space-x-7 ml-14" style={{ marginTop: 120 }}>
-//                         <Image
-//                             className="w-20 h-20 border-4 border-white rounded-full"
-//                             source={require('../assets/avatar_profile_icon.png')}
-//                         />
-//                         <View>
-//                             <Text className="font-extrabold text-xl">Maksym Maksym</Text>
-//                             <Text className="text-gray-500">Customer</Text>
-//                         </View>
-//                     </View>
-//                 </SafeAreaView>
-
-//                 <View >
-//                     <View className="flex-row items-center space-x-4 px-4 py-3 my-5">
-//                         <Text className="flex-1 text-xl font-bold">My orders:</Text>
-//                     </View>
-
-//                     <ScrollView className="divide-y divide-gray-200">
-//                         {orders.map(order => (
-//                             <TouchableOpacity
-//                                 key={order.id}
-//                                 className="p-5 bg-white shadow-sm mb-2"
-//                                 onPress={() => navigation.navigate('OrderDetail', { order })}
-//                             >
-//                                 <Text className="font-bold text-lg">{order.restaurantName}</Text>
-//                                 <Text className="text-gray-600">Total: <Currency quantity={order.totalAmount} currency="UAH" /></Text>
-//                             </TouchableOpacity>
-//                         ))}
-//                     </ScrollView>
-//                 </View>
-
-
-//             </View>
-//         </View>
-//     );
-// };
-
-// export default CompletedProfileScreen;
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useEffect, useState, useCallback } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity, Image, Alert, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import { ArrowLeftIcon, Cog8ToothIcon } from 'react-native-heroicons/outline';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { signOut } from 'firebase/auth';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
-// import Currency from 'react-currency-formatter';
 import { useTranslation } from 'react-i18next';
 
 const CompletedProfileScreen = () => {
     const navigation = useNavigation();
-    // use auth and db instances exported from ../firebase (initialized with React Native persistence)
-    // const auth and db are imported above
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
+    const [userName, setUserName] = useState('');
 
     const { t } = useTranslation();
 
@@ -298,10 +35,30 @@ const CompletedProfileScreen = () => {
         }
     };
 
-    // Fetch orders on component mount
+    // Fetch user name from Firestore
+    const fetchName = async () => {
+        const user = auth.currentUser;
+        if (user) {
+            const userDoc = await getDoc(doc(db, 'Users', user.uid));
+            if (userDoc.exists()) {
+                setUserName(userDoc.data().name || '');
+            } else {
+                setUserName('');
+            }
+        }
+    };
+
     useEffect(() => {
+        fetchName();
         fetchOrders();
     }, []);
+
+    // Оновлюємо ім'я при кожному фокусі на екрані профілю
+    useFocusEffect(
+        useCallback(() => {
+            fetchName();
+        }, [])
+    );
 
     const handleLogout = async () => {
         try {
@@ -348,12 +105,15 @@ const CompletedProfileScreen = () => {
                         source={require('../assets/avatar_profile_icon.png')}
                     />
                     <View>
-                        <Text className="font-extrabold text-xl text-white">Maksym Maksym</Text>
+                        <Text className="font-extrabold text-xl text-white">
+                            {userName || t('guest')}
+                        </Text>
                         <View className="flex-row items-center pt-2">
-                            <Text className="text-white">{t("role")} • </Text>
+                            <Text className="text-white">{t("role")}</Text>
+                            <Text className="text-white mx-2 text-lg">•</Text>
                             <TouchableOpacity
                                 onPress={handleLogout}
-                                className="bg-[#FAFAFF] p-2 rounded-full ml-2"
+                                className="bg-[#FAFAFF] p-2 rounded-full"
                             >
                                 <Text className="text-[#0C4F39]">{t("log_out")}</Text>
                             </TouchableOpacity>
