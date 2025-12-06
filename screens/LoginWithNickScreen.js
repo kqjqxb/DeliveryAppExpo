@@ -130,12 +130,12 @@ const LoginScreen = ({ navigation }) => {
     <SafeAreaView className="flex-1" >
         <View className="flex-1 bg-gray-100" >
 
-                <View className="p-5 border-b border-[#00CCBB] bg-white shadow-xs">
+                <View className="p-5 border-b border-[#0C4F39] bg-white shadow-xs">
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
                         className="rounded-full bg-gray-100 absolute top-4 left-5"
                     >
-                        <XMarkIcon color="#00CCBB" height={32} width={32} />
+                        <XMarkIcon color="#0C4F39" height={32} width={32} />
                     </TouchableOpacity>
 
                     <View>
@@ -160,7 +160,7 @@ const LoginScreen = ({ navigation }) => {
                     secureTextEntry
                     placeholder="Enter your password"
                 />
-                <View className="border-b-3 bg-[#00CCBB] rounded-sm">
+                <View className="border-b-3 bg-[#0C4F39] rounded-sm">
                     <Button title="Login" onPress={handleLogin} color="white"/>
                 </View>
                 
@@ -168,7 +168,7 @@ const LoginScreen = ({ navigation }) => {
                 <View className="flex-row items-center top-3">
                     <Text className="flex-1">Do you not have account?</Text>
                     <TouchableOpacity onPress={()=> navigation.navigate("RegisterWithNick")}>
-                        <Text className="text-[#00CCBB] right-1 text-xl">Register</Text>
+                        <Text className="text-[#0C4F39] right-1 text-xl">Register</Text>
                     </TouchableOpacity>
                 </View>
             </View>

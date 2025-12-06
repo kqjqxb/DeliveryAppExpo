@@ -61,7 +61,7 @@
 //   return (
 //     <SafeAreaView className="flex-1 bg-white">
 //       <View className="flex-1 bg-gray-100">
-//         <View className="p-5 border-b border-[#00CCBB] bg-white shadow-xs">
+//         <View className="p-5 border-b border-[#0C4F39] bg-white shadow-xs">
 //           <View>
 //             <Text className="text-lg font-bold text-center">Basket</Text>
 //             <Text className="text-center text-gray-400">{restaurant.title}</Text>
@@ -71,7 +71,7 @@
 //             onPress={() => navigation.goBack()}
 //             className="rounded-full bg-gray-100 absolute top-3 right-5"
 //           >
-//             <XCircleIcon color="#00CCBB" height={50} width={50} />
+//             <XCircleIcon color="#0C4F39" height={50} width={50} />
 //           </TouchableOpacity>
 //         </View>
 
@@ -82,14 +82,14 @@
 //           />
 //           <Text className="flex-1">Deliver in 10-19 min</Text>
 //           <TouchableOpacity>
-//             <Text className="text-[#00CCBB]">Change</Text>
+//             <Text className="text-[#0C4F39]">Change</Text>
 //           </TouchableOpacity>
 //         </View>
 
 //         <ScrollView className="divide-y divide-gray-200">
 //           {Object.entries(groupedItemInBasket).map(([key, items]) => (
 //             <View key={key} className="flex-row items-center space-x-3 bg-white py-2 px-5">
-//               <Text className="text-[#00CCBB]">{items.length} x</Text>
+//               <Text className="text-[#0C4F39]">{items.length} x</Text>
 //               <Image
 //                 source={{ uri: urlFor(items[0]?.image).url() }}
 //                 className="h-12 w-12 rounded-full"
@@ -99,7 +99,7 @@
 //                 <Currency quantity={items[0]?.price} currency='UAH' />
 //               </Text>
 //               <TouchableOpacity className="">
-//                 <Text className="text-[#00CCBB] text-xs"
+//                 <Text className="text-[#0C4F39] text-xs"
 //                   onPress={() => dispatch(removeFromBasket({ id: key }))}
 //                 >
 //                   Remove
@@ -131,7 +131,7 @@
 //             </Text>
 //           </View>
 
-//           <TouchableOpacity onPress={handlePlaceOrder} className="rounded-lg bg-[#00CCBB] p-4">
+//           <TouchableOpacity onPress={handlePlaceOrder} className="rounded-lg bg-[#0C4F39] p-4">
 //             <Text className="text-center text-white text-lg">Place Order</Text>
 //           </TouchableOpacity>
 //         </View>
@@ -228,7 +228,7 @@ const BasketScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 bg-gray-100">
-        <View className="p-5 border-b border-[#00CCBB] bg-white shadow-xs">
+        <View className="p-5 border-b border-[#0C4F39] bg-white shadow-xs">
           <View>
             <Text className="text-lg font-bold text-center">{t("Basket")}</Text>
             <Text className="text-center text-gray-400">{restaurant.title}</Text>
@@ -238,7 +238,7 @@ const BasketScreen = () => {
             onPress={() => navigation.goBack()}
             className="rounded-full bg-gray-100 absolute top-3 right-5"
           >
-            <XCircleIcon color="#00CCBB" height={50} width={50} />
+            <XCircleIcon color="#0C4F39" height={50} width={50} />
           </TouchableOpacity>
         </View>
 
@@ -249,14 +249,14 @@ const BasketScreen = () => {
           />
           <Text className="flex-1">{t("Deliver_in")}</Text>
           <TouchableOpacity>
-            <Text className="text-[#00CCBB]">{t("Change")}</Text>
+            <Text className="text-[#0C4F39]">{t("Change")}</Text>
           </TouchableOpacity>
         </View>
 
         <ScrollView className="divide-y divide-gray-200">
           {Object.entries(groupedItemInBasket).map(([key, items]) => (
             <View key={key} className="flex-row items-center space-x-3 bg-white py-2 px-5">
-              <Text className="text-[#00CCBB]">{items.length} x</Text>
+              <Text className="text-[#0C4F39]">{items.length} x</Text>
               <Image
                 source={{ uri: urlFor(items[0]?.imgUrl).url() }}
                 className="h-12 w-12 rounded-full"
@@ -267,7 +267,7 @@ const BasketScreen = () => {
                 {items[0]?.price}
               </Text>
               <TouchableOpacity>
-                <Text className="text-[#00CCBB] text-xs"
+                <Text className="text-[#0C4F39] text-xs"
                   onPress={() => dispatch(removeFromBasket({ id: key }))}
                 >
                   {t("Remove")}
@@ -302,7 +302,7 @@ const BasketScreen = () => {
             </Text>
           </View>
 
-          <TouchableOpacity onPress={(handlePlaceOrder)} className="rounded-lg bg-[#00CCBB] p-4">
+          <TouchableOpacity onPress={(handlePlaceOrder)} className="rounded-lg bg-[#0C4F39] p-4">
             <Text className="text-center text-white text-lg">{t("Place_Order")}</Text>
           </TouchableOpacity>
         </View>

@@ -49,11 +49,11 @@
 //                     <Text className="font-bold text-gray-400 text-xs">Deliver Now!</Text>
 //                     <Text className="font-bold text-xl">
 //                         Current Location
-//                         <ChevronDownIcon size={20} color="#00CCBB" />
+//                         <ChevronDownIcon size={20} color="#0C4F39" />
 //                     </Text>
 //                 </View>
 //                 <View>
-//                     <UserIcon size={35} color="#00CCBB" onPress={() => navigation.navigate("Profile")}/>
+//                     <UserIcon size={35} color="#0C4F39" onPress={() => navigation.navigate("Profile")}/>
 //                 </View>
 //             </View>
 
@@ -66,7 +66,7 @@
 //                         keyboardType="default"
 //                     />
 //                 </View>
-//                 <AdjustmentsVerticalIcon color="#00CCBB" />
+//                 <AdjustmentsVerticalIcon color="#0C4F39" />
 //             </View>
 
 //             {/* Body */}
@@ -204,7 +204,7 @@ const onRefresh = async () => {
   if (loading) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#00CCBB" />
+        <ActivityIndicator size="large" color="#0C4F39" />
       </SafeAreaView>
     );
   }
@@ -221,11 +221,11 @@ const onRefresh = async () => {
           <Text className="font-bold text-gray-400 text-xs">{t("deliver_now")}</Text>
           <Text className="font-bold text-xl">
             {t("current_location")}
-            <ChevronDownIcon size={20} color="#00CCBB" />
+            <ChevronDownIcon size={20} color="#0C4F39" />
           </Text>
         </View>
         <TouchableOpacity onPress={handleUserIconPress}>
-          <UserIcon size={35} color="#00CCBB" />
+          <UserIcon size={35} color="#0C4F39" />
         </TouchableOpacity>
       </View>
 
@@ -238,7 +238,7 @@ const onRefresh = async () => {
             keyboardType="default"
           />
         </View>
-        <AdjustmentsVerticalIcon color="#00CCBB" />
+        <AdjustmentsVerticalIcon color="#0C4F39" />
         
       </View>
       <View className="pb-3">
@@ -255,7 +255,7 @@ const onRefresh = async () => {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            colors={["#00CCBB"]}
+            colors={["#0C4F39"]}
           />
         }
       >

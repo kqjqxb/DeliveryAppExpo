@@ -13,7 +13,7 @@ const ProfileScreen = () => {
     return (
         <SafeAreaView className="flex-1">
             <View className="z-50">
-                <TouchableOpacity onPress={navigation.goBack} className="absolute top-4 left-5 p-2 bg-[#00CCBB] rounded-full">
+                <TouchableOpacity onPress={navigation.goBack} className="absolute top-4 left-5 p-2 bg-[#0C4F39] rounded-full">
                     <ArrowLeftIcon size={20} color={'white'} />
                 </TouchableOpacity>
             </View>

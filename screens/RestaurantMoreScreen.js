@@ -71,7 +71,7 @@ const RestaurantMoreScreen = () => {
           onPress={navigation.goBack}
           className="absolute left-5 p-2 bg-gray-100 rounded-full"
         >
-          <ArrowLeftIcon size={20} color="#00CCBB" />
+          <ArrowLeftIcon size={20} color="#0C4F39" />
         </TouchableOpacity>
         <Text className="font-extrabold text-xl text-center">{restaurant.title}</Text>
       </View>
@@ -97,7 +97,7 @@ const RestaurantMoreScreen = () => {
                 longitude: restaurant.long,
               }}
               identifier="origin"
-              pinColor="#00CCBB"
+              pinColor="#0C4F39"
             />
           </MapView>
         </View>
@@ -106,7 +106,7 @@ const RestaurantMoreScreen = () => {
           {/* Кнопка "Показати на карті" */}
           <TouchableOpacity
             onPress={handleShowOnMap}
-            className="bg-[#00CCBB] p-4 rounded-md"
+            className="bg-[#0C4F39] p-4 rounded-md"
           >
             <Text className="text-center text-white font-bold">{t("show_on_map")}</Text>
           </TouchableOpacity>
@@ -117,11 +117,11 @@ const RestaurantMoreScreen = () => {
             <View className="flex-row items-center space-x-1">
                 <Image 
                     source={require('../assets/fast-delivery.png')}
-                    className="h-5 w-5 color-[#00CCBB]"
+                    className="h-5 w-5 color-[#0C4F39]"
                 />
                 <Text className=" text-black font-semibold" style={{fontSize: 12}}> {t("Delivery")} · <Image 
                     source={require('../assets/calendar_icon.png')}
-                    className="h-5 w-5 t-3 color-[#00CCBB]"
+                    className="h-5 w-5 t-3 color-[#0C4F39]"
                 /> {t("Pre-order")}</Text>
             </View>
           </View>
@@ -136,7 +136,7 @@ const RestaurantMoreScreen = () => {
             <View className="pt-5">
               <TouchableOpacity
                 onPress={handleCall}
-                className="bg-[#00CCBB] p-4 rounded-md"
+                className="bg-[#0C4F39] p-4 rounded-md"
               >
                 <Text className="text-center text-white font-bold">{t("Call")}</Text>
               </TouchableOpacity>

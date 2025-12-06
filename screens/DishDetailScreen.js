@@ -85,7 +85,7 @@ const DishDetailScreen = () => {
             onPress={navigation.goBack} 
             className="absolute top-7 right-5 p-2 bg-gray-100 rounded-full z-50"
         >
-            <XMarkIcon color="#00CCBB" size={20}  />
+            <XMarkIcon color="#0C4F39" size={20}  />
         </TouchableOpacity>
 
         <ScrollView>
@@ -106,7 +106,7 @@ const DishDetailScreen = () => {
              <View className="flex-row items-center space-x-2 pb-3">
                  <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
              <MinusCircleIcon
-                    color={items.length > 0 ? "#00CCBB" : "gray"}
+                    color={items.length > 0 ? "#0C4F39" : "gray"}
                     size={40}
                 />
                 </TouchableOpacity>
@@ -114,7 +114,7 @@ const DishDetailScreen = () => {
             <Text>{items.length}</Text>
 
             <TouchableOpacity onPress={addItemToBasket}>
-              <PlusCircleIcon size={40} color="#00CCBB" />
+              <PlusCircleIcon size={40} color="#0C4F39" />
             </TouchableOpacity>
           </View>
         </View>

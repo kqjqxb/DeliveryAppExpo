@@ -13,7 +13,7 @@ const DeliveryScreen = () => {
     const restaurant = useSelector(selectRestaurant);
 
   return (
-    <View className="bg-[#00CCBB] flex-1">
+    <View className="bg-[#0C4F39] flex-1">
         <SafeAreaView className="z-50">
             <View className="flex-row justify-between items-center p-5">
                 <TouchableOpacity onPress={() => navigation.navigate("Home")}>
@@ -36,7 +36,7 @@ const DeliveryScreen = () => {
                     />
                 </View>
 
-                <Progress.Bar size={30} color='#00CCBB' indeterminate={true}/>
+                <Progress.Bar size={30} color='#0C4F39' indeterminate={true}/>
 
                 <Text className="mt-3 text-gray-500">
                     Your order at {restaurant.title} is being prepared
@@ -62,7 +62,7 @@ const DeliveryScreen = () => {
                     longitude: restaurant.long,
                 }}
                 identifier='origin'
-                pinColor='#00CCBB'
+                pinColor='#0C4F39'
             />
             {console.log(restaurant.lat, restaurant.long)}
 
@@ -79,7 +79,7 @@ const DeliveryScreen = () => {
                 <Text className="text-gray-400">Your Rider</Text>
             </View>
 
-            <Text className="text-[#00CCBB] text-lg mr-5 font-bold">Call</Text>
+            <Text className="text-[#0C4F39] text-lg mr-5 font-bold">Call</Text>
         </SafeAreaView>
     </View>
   )

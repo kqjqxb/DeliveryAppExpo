@@ -22,7 +22,7 @@
 //         <View className="flex-1 bg-white">
 //         <View className="flex-1 bg-[#d6f9f6]">
 //           <SafeAreaView
-//             className="flex-1 p-5 border-b border-[#00CCBB] bg-[#00CCBB] shadow-xs rounded-3xl -mt-12"
+//             className="flex-1 p-5 border-b border-[#0C4F39] bg-[#0C4F39] shadow-xs rounded-3xl -mt-12"
 //             style={{ height: '500' }}
 //           >
 //             <View>
@@ -30,7 +30,7 @@
 //               <View className="absolute top-14 right-5 z-50">
 //                 <TouchableOpacity
 //                   onPress={handleLogout}
-//                   className="bg-[#00CCBB] p-2 rounded-full"
+//                   className="bg-[#0C4F39] p-2 rounded-full"
 //                 >
 //                   <Text className="text-white">Log out</Text>
 //                 </TouchableOpacity>
@@ -39,7 +39,7 @@
 //               <View>
 //                 <TouchableOpacity
 //                   onPress={navigation.goBack}
-//                   className="absolute top-14 left-5 p-2 bg-[#00CCBB] rounded-full"
+//                   className="absolute top-14 left-5 p-2 bg-[#0C4F39] rounded-full"
 //                 >
 //                   <ArrowLeftIcon size={28} color={'white'} />
 //                 </TouchableOpacity>
@@ -95,7 +95,7 @@
 
 //             <TouchableOpacity
 //               onPress={() => navigation.navigate('PreparingOrderScreen')}
-//               className="rounded-lg bg-[#00CCBB] p-4"
+//               className="rounded-lg bg-[#0C4F39] p-4"
 //             >
 //               <Text className="text-center text-white text-lg">Place Order</Text>
 //             </TouchableOpacity>
@@ -183,7 +183,7 @@
 //         <View className="flex-1 bg-white">
 //             <View className="flex-1 bg-[#d6f9f6]">
 //                 <SafeAreaView
-//                     className="flex-1 p-5 border-b border-[#00CCBB] bg-[#00CCBB] shadow-xs rounded-3xl -mt-12"
+//                     className="flex-1 p-5 border-b border-[#0C4F39] bg-[#0C4F39] shadow-xs rounded-3xl -mt-12"
 //                     style={{ height: '500' }}
 //                 >
 //                     <View>
@@ -191,7 +191,7 @@
 //                         <View className="absolute top-14 right-5 z-50">
 //                             <TouchableOpacity
 //                                 onPress={handleLogout}
-//                                 className="bg-[#00CCBB] p-2 rounded-full"
+//                                 className="bg-[#0C4F39] p-2 rounded-full"
 //                             >
 //                                 <Text className="text-white">Log out</Text>
 //                             </TouchableOpacity>
@@ -200,7 +200,7 @@
 //                         <View>
 //                             <TouchableOpacity
 //                                 onPress={() => navigation.goBack()}
-//                                 className="absolute top-14 left-5 p-2 bg-[#00CCBB] rounded-full"
+//                                 className="absolute top-14 left-5 p-2 bg-[#0C4F39] rounded-full"
 //                             >
 //                                 <ArrowLeftIcon size={28} color={'white'} />
 //                             </TouchableOpacity>
@@ -369,7 +369,7 @@ const CompletedProfileScreen = () => {
 
                 {loading ? (
                     <View className="flex-1 justify-center items-center">
-                        <ActivityIndicator size="large" color="#00CCBB" />
+                        <ActivityIndicator size="large" color="#0C4F39" />
                     </View>
                 ) : orders.length === 0 ? (
                     <View className="flex-1 justify-center items-center">
@@ -382,7 +382,7 @@ const CompletedProfileScreen = () => {
                             <RefreshControl
                                 refreshing={refreshing}
                                 onRefresh={onRefresh}
-                                colors={['#00CCBB']} // Customize color of the refresh indicator
+                                colors={['#0C4F39']} // Customize color of the refresh indicator
                             />
                         }
                     >

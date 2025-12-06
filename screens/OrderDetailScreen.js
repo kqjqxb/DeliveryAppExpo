@@ -33,7 +33,7 @@
 //         />
 
 //         <TouchableOpacity onPress={() => navigation.goBack()} className="absolute top-14 left-5 p-2 bg-gray-100 rounded-full">
-//           <ArrowLeftIcon size={20} color={'#00CCBB'} />
+//           <ArrowLeftIcon size={20} color={'#0C4F39'} />
 //         </TouchableOpacity>
 //       </View>
 //       <View className="mx-4 mt-3">
@@ -45,7 +45,7 @@
 //         <View key={item.name} className="flex-row items-center space-x-4 mt-4 mx-3">
 //         <Image source={{ uri: item.image }} className="w-20 h-20 rounded-full" />
 //         <Text className="flex-1 text-lg">
-//           {item.name} <Text className="text-[#00CCBB]">(x{item.quantity})</Text>
+//           {item.name} <Text className="text-[#0C4F39]">(x{item.quantity})</Text>
 //         </Text>
 //         <View className="flex-1 items-end">
 //           <Text className="text-lg">{item.price * item.quantity} UAH</Text>
@@ -100,7 +100,7 @@ const OrderDetailScreen = ({ route }) => {
         />
 
         <TouchableOpacity onPress={() => navigation.goBack()} className="absolute top-14 left-5 p-2 bg-gray-100 rounded-full">
-          <ArrowLeftIcon size={20} color={'#00CCBB'} />
+          <ArrowLeftIcon size={20} color={'#0C4F39'} />
         </TouchableOpacity>
       </View>
       <View className="mx-4 mt-3">
@@ -112,7 +112,7 @@ const OrderDetailScreen = ({ route }) => {
         <View key={item.name} className="flex-row items-center space-x-4 mt-4 mx-3">
           <Image source={{ uri: item.image }} className="w-20 h-20 rounded-full" />
           <Text className="flex-1 text-lg">
-            {item.name} <Text className="text-[#00CCBB]">(x{item.quantity})</Text>
+            {item.name} <Text className="text-[#0C4F39]">(x{item.quantity})</Text>
           </Text>
           <View className="flex-1 items-end">
             <Text className="text-lg">{item.price * item.quantity} UAH</Text>

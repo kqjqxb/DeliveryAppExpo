@@ -44,12 +44,12 @@
 //   return (
 //     <SafeAreaView className="flex-1">
 //       <View className="flex-1 bg-gray-100">
-//         <View className="p-5 border-b border-[#00CCBB] bg-white shadow-xs">
+//         <View className="p-5 border-b border-[#0C4F39] bg-white shadow-xs">
 //           <TouchableOpacity
 //             onPress={() => navigation.goBack()}
 //             className="rounded-full bg-gray-100 absolute top-4 left-5"
 //           >
-//             <XMarkIcon color="#00CCBB" height={32} width={32} />
+//             <XMarkIcon color="#0C4F39" height={32} width={32} />
 //           </TouchableOpacity>
 
 //           <View>
@@ -77,7 +77,7 @@
 //             placeholder="Enter your password"
 //           />
           
-//           <View className="border-b-3 bg-[#00CCBB] rounded-sm">
+//           <View className="border-b-3 bg-[#0C4F39] rounded-sm">
 //             {isRegistering ? (
 //               <Button title="Register" onPress={handleRegister} color="white" />
 //             ) : (
@@ -92,7 +92,7 @@
 //               <Text className="flex-1">Do you not have an account?</Text>
 //             )}
 //             <TouchableOpacity onPress={() => setIsRegistering(!isRegistering)}>
-//               <Text className="text-[#00CCBB] right-1 text-xl">
+//               <Text className="text-[#0C4F39] right-1 text-xl">
 //                 {isRegistering ? 'Login' : 'Register'}
 //               </Text>
 //             </TouchableOpacity>
@@ -206,7 +206,7 @@ const AuthScreen = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => setIsRegister(!isRegister)} style={styles.closeButton}>
-          <XMarkIcon color="#00CCBB" height={32} width={32} />
+          <XMarkIcon color="#0C4F39" height={32} width={32} />
         </TouchableOpacity>
         <Text style={styles.headerText}>
           {isRegister ? 'Register and go to order!' : 'Login and go to order!'}
@@ -261,7 +261,7 @@ const AuthScreen = () => {
             </TouchableOpacity>
           </View>
 
-          <Button title="Register" onPress={handleRegister} color="#00CCBB" />
+          <Button title="Register" onPress={handleRegister} color="#0C4F39" />
           <TouchableOpacity onPress={() => setIsRegister(false)}>
             <Text style={styles.switchText}>Already have an account? Login</Text>
           </TouchableOpacity>
@@ -296,7 +296,7 @@ const AuthScreen = () => {
             </TouchableOpacity>
           </View>
 
-          <Button title="Login" onPress={handleLogin} color="#00CCBB" />
+          <Button title="Login" onPress={handleLogin} color="#0C4F39" />
           <TouchableOpacity onPress={() => setIsRegister(true)}>
             <Text style={styles.switchText}>Don't have an account? Register</Text>
           </TouchableOpacity>
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
   header: {
     padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#00CCBB',
+    borderBottomColor: '#0C4F39',
     backgroundColor: 'white',
     shadowOpacity: 0.1,
   },
@@ -348,7 +348,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   switchText: {
-    color: '#00CCBB',
+    color: '#0C4F39',
     marginTop: 16,
     textAlign: 'center',
   },

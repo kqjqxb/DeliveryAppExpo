@@ -53,7 +53,7 @@
 //             <View className="flex-row items-center space-x-2 pb-3">
 //                 <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
 //                 <MinusCircleIcon
-//                     color={items.length > 0 ? "#00CCBB" : "gray"}
+//                     color={items.length > 0 ? "#0C4F39" : "gray"}
 //                     size={40}
 //                 />
 //                 </TouchableOpacity>
@@ -61,7 +61,7 @@
 //             <Text>{items.length}</Text>
 
 //             <TouchableOpacity onPress={addItemToBasket}>
-//               <PlusCircleIcon size={40} color="#00CCBB" />
+//               <PlusCircleIcon size={40} color="#0C4F39" />
 //             </TouchableOpacity>
 //           </View>
 //         </View>

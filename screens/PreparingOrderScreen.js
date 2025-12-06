@@ -16,7 +16,7 @@ const PreparingOrderScreen = () => {
 
   return (
 
-    <SafeAreaView className="bg-[#00CCBB] flex-1 justify-center items-center">
+    <SafeAreaView className="bg-[#0C4F39] flex-1 justify-center items-center">
         {/* 03:09:50 */}
 
         <Animatable.Image

@@ -74,12 +74,12 @@ const TestScreen1 = ({ navigation }) => {
   return (
     <SafeAreaView className="flex-1">
       <View className="flex-1 bg-gray-100">
-        <View className="p-4 border-b border-[#00CCBB] bg-white shadow-xs">
+        <View className="p-4 border-b border-[#0C4F39] bg-white shadow-xs">
           <TouchableOpacity
             onPress={() => navigation.goBack()}
             className="absolute top-1 left-4 p-2 rounded-full"
           >
-            <XMarkIcon color="#00CCBB" height={35} width={35} />
+            <XMarkIcon color="#0C4F39" height={35} width={35} />
           </TouchableOpacity>
 
           <Text className="font-bold text-center">
@@ -129,7 +129,7 @@ const TestScreen1 = ({ navigation }) => {
             </>
           )}
 
-          <View className="bg-[#00CCBB] rounded-md overflow-hidden">
+          <View className="bg-[#0C4F39] rounded-md overflow-hidden">
             {isRegistering ? (
               <Button title={t("Register")} onPress={handleRegister} color="white" />
             ) : (
@@ -144,7 +144,7 @@ const TestScreen1 = ({ navigation }) => {
               <Text className="flex-1">{t("Do_you_not_have_an_account")}</Text>
             )}
             <TouchableOpacity onPress={() => setIsRegistering(!isRegistering)}>
-              <Text className={`text-[#00CCBB] ${textSize}`}>
+              <Text className={`text-[#0C4F39] ${textSize}`}>
                 {isRegistering ? `${t("Login")}` : `${t("Register")}`}
               </Text>
             </TouchableOpacity>
@@ -215,7 +215,7 @@ const TestScreen1 = ({ navigation }) => {
               </TouchableOpacity>
             </View>
 
-            <Button title={t("Submit")} onPress={handleRegisterSubmit} color="#00CCBB" />
+            <Button title={t("Submit")} onPress={handleRegisterSubmit} color="#0C4F39" />
           </View>
         </Modal>
       </View>

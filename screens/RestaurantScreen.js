@@ -79,7 +79,7 @@
 //                 <View className="relative">
 //                     <Image source={{ uri: urlFor(imgUrl).url() }} className="w-full h-56 bg-gray-300 p-4" />
 //                     <TouchableOpacity onPress={navigation.goBack} className="absolute top-14 left-5 p-2 bg-gray-100 rounded-full">
-//                         <ArrowLeftIcon size={20} color={'#00CCBB'} />
+//                         <ArrowLeftIcon size={20} color={'#0C4F39'} />
 //                     </TouchableOpacity>
 //                 </View>
 //                 <View className="bg-white">
@@ -102,7 +102,7 @@
 //                     <TouchableOpacity className="flex-row items-center space-x-2 p-4 border-y border-gray-300">
 //                         <QuestionMarkCircleIcon color="gray" opacity={0.5} size={20} />
 //                         <Text className="pl-2 flex-1 text-md font-bold">Have a food allergy?</Text>
-//                         <ChevronRightIcon color="#00CCBB" />
+//                         <ChevronRightIcon color="#0C4F39" />
 //                     </TouchableOpacity>
 //                 </View>
 
@@ -289,7 +289,7 @@ const RestaurantScreen = () => {
         <View className="relative">
           <Image source={{ uri: urlFor(imgUrl).url() }} className="w-full h-56 bg-gray-300 p-4" />
           <TouchableOpacity onPress={navigation.goBack} className="absolute top-14 left-5 p-2 bg-gray-100 rounded-full">
-            <ArrowLeftIcon size={20} color={'#00CCBB'} />
+            <ArrowLeftIcon size={20} color={'#0C4F39'} />
           </TouchableOpacity>
         </View>
 
@@ -321,7 +321,7 @@ const RestaurantScreen = () => {
           <TouchableOpacity className="flex-row items-center space-x-2 p-4 border-y border-gray-300">
             <QuestionMarkCircleIcon color="gray" opacity={0.5} size={20} />
             <Text className="pl-2 flex-1 text-md font-bold">{t("have_a_food_allergy")}</Text>
-            <ChevronRightIcon color="#00CCBB" />
+            <ChevronRightIcon color="#0C4F39" />
           </TouchableOpacity>
         </View>
 

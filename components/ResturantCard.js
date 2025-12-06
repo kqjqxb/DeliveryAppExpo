@@ -95,9 +95,9 @@ const ResturantCard = ({
             <View className="flex-row items-center space-x-1">
                 <Image 
                     source={require('../assets/fast-delivery.png')}
-                    className="h-5 w-5 color-[#00CCBB]"
+                    className="h-5 w-5 color-[#0C4F39]"
                 />
-                <Text className="text-xs text-[#00CCBB]">₴35 {t("delivery")}</Text>
+                <Text className="text-xs text-[#0C4F39]">₴35 {t("delivery")}</Text>
             </View>
         </View>
     </TouchableOpacity>
