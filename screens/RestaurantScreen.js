@@ -140,6 +140,11 @@ const RestaurantScreen = () => {
     });
   };
   
+  useEffect(() => {
+    if (categories.length > 0) {
+      setActiveCategory(categories[0].name);
+    }
+  }, [categories]);
 
   return (
     <>
