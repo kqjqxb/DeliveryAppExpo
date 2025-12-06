@@ -138,5 +138,32 @@
     "guest": "Гість",
     "enter_name": "Введіть ім'я",
     "name_placeholder": "Ім'я в профілі",
-    "save": "Зберегти"
+    "save": "Зберегти",
+
+
+    "enter_email": "Введіть свою електронну адресу",
+    "email_placeholder": "Електронна адреса в профілі",
+    "verify_new_email_message": "Будь ласка, підтвердіть свою нову електронну адресу за посиланням, надісланим на вашу пошту.",
+    "email_verified_successfully": "Електронну адресу успішно підтверджено!",
+    "email_change_error": "Помилка зміни електронної адреси:",
+    "enter_password": "Введіть пароль",
+    "password_placeholder": "Введіть свій пароль",
+    "password_changed_success": "Пароль успішно змінено!",
+    "password_change_error": "Помилка зміни пароля:",
+    "enter_phone": "Введіть свій номер телефону",
+    "phone_placeholder": "Номер телефону в профілі",
+    "phone_change_error": "Помилка зміни номера телефону:",
+    "phone_changed_success": "Номер телефону успішно змінено!",
+
+    "enter_current_password": "Введіть поточний пароль",
+  "current_password_placeholder": "Поточний пароль",
+  "enter_new_password_twice": "Введіть новий пароль двічі",
+  "new_password_placeholder": "Новий пароль",
+  "repeat_new_password_placeholder": "Повторіть новий пароль",
+  "passwords_do_not_match": "Паролі не збігаються!",
+  "enter_new_passwords": "Введіть нові паролі",
+
+  "wrong_current_password": "Неправильний поточний пароль",
+  "next": "Далі"
+  
   }

@@ -8,19 +8,29 @@ import i18n from 'i18next'; // Імпорт для i18next
 import { useTranslation } from 'react-i18next';
 import LanguageModal from '../components/LanguageModal'; // Імпортуємо компонент LanguageModal
 import NameModal from '../components/NameModal'; // New modal for name change
+import EmailModal from '../components/EmailModal'; // New modal for email change
+import PasswordModal from '../components/PasswordModal'; // New modal for password change
+import PhoneModal from '../components/PhoneModal'; // New modal for phone change
 import '../i18n'; 
 import { auth, db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { updateEmail, sendEmailVerification, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
   const restaurant = useSelector(selectRestaurant);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isNameModalVisible, setNameModalVisible] = useState(false);
+  const [isEmailModalVisible, setEmailModalVisible] = useState(false);
+  const [isPasswordModalVisible, setPasswordModalVisible] = useState(false);
+  const [isPhoneModalVisible, setPhoneModalVisible] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPhone, setUserPhone] = useState('');
+  const [emailPending, setEmailPending] = useState(null); // for pending email verification
   const { t } = useTranslation();
 
-  // Fetch user name from Firestore
+  // Fetch user name, email, and phone from Firestore/Auth
   const fetchName = async () => {
     const user = auth.currentUser;
     console.log('fetchName: currentUser', user);
@@ -30,9 +40,13 @@ const SettingsScreen = () => {
         console.log('fetchName: userDoc.exists()', userDoc.exists());
         if (userDoc.exists()) {
           setUserName(userDoc.data().name || '');
+          setUserEmail(user.email || '');
+          setUserPhone(userDoc.data().phone || '');
           console.log('fetchName: name', userDoc.data().name);
         } else {
           setUserName('');
+          setUserEmail('');
+          setUserPhone('');
           console.log('fetchName: no userDoc');
         }
       } catch (err) {
@@ -81,6 +95,89 @@ const SettingsScreen = () => {
     console.log('handleSaveName: modal closed');
   };
 
+  // Email change handler with verification and re-auth
+  const handleSaveEmail = async (currentPassword, newEmail) => {
+    const user = auth.currentUser;
+    if (user && newEmail && newEmail !== user.email) {
+      try {
+        // Re-authenticate
+        const credential = EmailAuthProvider.credential(user.email, currentPassword);
+        await reauthenticateWithCredential(user, credential);
+        // Set pending email in Firestore
+        await setDoc(doc(db, 'Users', user.uid), { pendingEmail: newEmail }, { merge: true });
+        // Update email and send verification
+        await updateEmail(user, newEmail);
+        await sendEmailVerification(user);
+        setEmailPending(newEmail);
+        alert(t('verify_new_email_message'));
+      } catch (err) {
+        alert(t('email_change_error'));
+      }
+    }
+    setEmailModalVisible(false);
+  };
+
+  // Listen for email verification and finalize email change
+  React.useEffect(() => {
+    const interval = setInterval(async () => {
+      const user = auth.currentUser;
+      if (user && emailPending) {
+        await user.reload();
+        if (user.emailVerified && user.email === emailPending) {
+          // Remove pendingEmail from Firestore, update email field
+          await setDoc(doc(db, 'Users', user.uid), { email: emailPending, pendingEmail: null }, { merge: true });
+          setUserEmail(emailPending);
+          setEmailPending(null);
+          alert(t('email_verified_success'));
+        }
+      }
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [emailPending]);
+
+  // Password change handler with re-auth and double entry
+  const handleSavePassword = async (currentPassword, newPassword) => {
+    const user = auth.currentUser;
+    if (user && newPassword) {
+      try {
+        // Re-authenticate
+        const credential = EmailAuthProvider.credential(user.email, currentPassword);
+        await reauthenticateWithCredential(user, credential);
+        await updatePassword(user, newPassword);
+        alert(t('password_changed_success'));
+      } catch (err) {
+        alert(t('password_change_error'));
+      }
+    }
+    setPasswordModalVisible(false);
+  };
+
+  // Phone change handler
+  const handleSavePhone = async (newPhone) => {
+    const user = auth.currentUser;
+    if (user && newPhone) {
+      try {
+        await setDoc(doc(db, 'Users', user.uid), { phone: newPhone }, { merge: true });
+        setUserPhone(newPhone);
+      } catch (err) {
+        alert(t('phone_change_error'));
+      }
+    }
+    setPhoneModalVisible(false);
+  };
+
+  const checkCurrentPassword = async (password) => {
+    const user = auth.currentUser;
+    if (!user || !password) return false;
+    try {
+      const credential = EmailAuthProvider.credential(user.email, password);
+      await reauthenticateWithCredential(user, credential);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  };
+
   return (
     <View className="flex-1 bg-gray-50 pb-5">
       {/* Back button */}
@@ -118,11 +215,21 @@ const SettingsScreen = () => {
                 icon: <UserIcon size={24} color="#0C4F39" />, 
                 onPress: () => setNameModalVisible(true) 
               },
-              { label: t('phone_number'), icon: <PhoneIcon size={24} color="#0C4F39" /> },
-              { label: t('email'), icon: <EnvelopeIcon size={24} color="#0C4F39" /> },
+              { 
+                label: t('phone_number'), 
+                value: userPhone, 
+                icon: <PhoneIcon size={24} color="#0C4F39" />, 
+                onPress: () => setPhoneModalVisible(true)
+              },
+              { 
+                label: t('email'), 
+                value: userEmail, 
+                icon: <EnvelopeIcon size={24} color="#0C4F39" />, 
+                onPress: () => setEmailModalVisible(true)
+              },
               { label: t('my_address'), icon: <MapPinIcon size={24} color="#0C4F39" /> },
               { label: t('notifications'), icon: <BellIcon size={24} color="#0C4F39" /> },
-              { label: t('password'), icon: <LockClosedIcon size={24} color="#0C4F39" /> },
+              { label: t('password'), icon: <LockClosedIcon size={24} color="#0C4F39" />, onPress: () => setPasswordModalVisible(true) },
               { label: t('language'), icon: <GlobeAltIcon size={24} color="#0C4F39" />, onPress: () => setModalVisible(true) }, // Відкриття модального вікна
             ].map((item, index) => (
               <TouchableOpacity 
@@ -140,15 +247,30 @@ const SettingsScreen = () => {
           </View>
         </View>
 
-        {/* Name change modal */}
+        {/* Modals */}
         <NameModal
           isVisible={isNameModalVisible}
-          onClose={() => {
-            setNameModalVisible(false);
-            console.log('NameModal: closed by user');
-          }}
+          onClose={() => setNameModalVisible(false)}
           onSave={handleSaveName}
           initialName={userName}
+        />
+        <EmailModal
+          isVisible={isEmailModalVisible}
+          onClose={() => setEmailModalVisible(false)}
+          onSave={handleSaveEmail}
+          initialEmail={userEmail}
+        />
+        <PasswordModal
+          isVisible={isPasswordModalVisible}
+          onClose={() => setPasswordModalVisible(false)}
+          onSave={handleSavePassword}
+          checkCurrentPassword={checkCurrentPassword}
+        />
+        <PhoneModal
+          isVisible={isPhoneModalVisible}
+          onClose={() => setPhoneModalVisible(false)}
+          onSave={handleSavePhone}
+          initialPhone={userPhone}
         />
 
         {/* Використовуємо компонент LanguageModal */}
