@@ -124,6 +124,14 @@
     "Already_have_an_account": "Already have an account?",
     "Do_you_not_have_an_account": "Do you not have an account?",
     "No_extras_available": "No extras available",
-    "Cannot_open_URL": "Cannot open URL"
+    "Cannot_open_URL": "Cannot open URL",
+
+    "Waiting_for_Restaurant_to_accept_your_order!": "Waiting for Restaurant to accept your order!",
+    "Estimated_Arrival": "Estimated Arrival",
+    "Minutes": "Minutes",
+    "Your_order_at": "Your order at",
+    "is_being_prepared": "is being prepared",
+    "Order_Help": "Order Help",
+    "Deliver_1": "Deliver 1",
+    "Your_Rider": "Your Rider"
   }
-  

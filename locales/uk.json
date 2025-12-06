@@ -124,8 +124,15 @@
     "Already_have_an_account": "Уже маєте обліковий запис?",
     "Do_you_not_have_an_account": "У вас немає облікового запису?",
     "No_extras_available": "Доступних доданків немає",
-    "Cannot_open_URL": "Не вдається відкрити URL"
+    "Cannot_open_URL": "Не вдається відкрити URL",
     
-
+    "Waiting_for_Restaurant_to_accept_your_order!": "Чекаємо, поки ресторан прийме ваше замовлення!",
+    "Estimated_Arrival": "Орієнтовний час прибуття",
+    "Minutes": "Хвилин",
+    "Your_order_at": "Ваше замовлення в",
+    "is_being_prepared": "готується",
+    "Order_Help": "Допомога із замовленням",
+    "Deliver_1": "Кур'єр 1",
+    "Your_Rider": "Ваш кур'єр",
+    "Call": "Зателефонувати"
   }
-  

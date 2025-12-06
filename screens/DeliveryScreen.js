@@ -6,11 +6,14 @@ import { selectRestaurant } from '../features/restaurantSlice';
 import { XMarkIcon } from 'react-native-heroicons/outline';
 import * as Progress from "react-native-progress";
 import MapView, {Marker} from 'react-native-maps';
+import { useTranslation } from 'react-i18next';
+  
 
 const DeliveryScreen = () => {
 
     const navigation = useNavigation();
     const restaurant = useSelector(selectRestaurant);
+    const { t, i18n } = useTranslation();
 
   return (
     <View className="bg-[#0C4F39] flex-1">
@@ -19,14 +22,14 @@ const DeliveryScreen = () => {
                 <TouchableOpacity onPress={() => navigation.navigate("Home")}>
                     <XMarkIcon color="white" size={30} />
                 </TouchableOpacity>
-                <Text className="font-light text-white text-lg">Order Help</Text>
+                <Text className="font-light text-white text-lg">{t('Order_Help')}</Text>
             </View>
 
             <View className="bg-white mx-5 my-2 rounded-md p-5 z-50 shadow-md">
                 <View className="flex-row justify-between">
                     <View>
-                        <Text className="text-lg text-gray-400">Estimated Arrival</Text>
-                        <Text className="text-4xl font-bold">30-40 Minutes</Text>
+                        <Text className="text-lg text-gray-400">{t('Estimated_Arrival')}</Text>
+                        <Text className="text-4xl font-bold">30-40 {t('Minutes')}</Text>
                     </View>
                     <Image 
                         source={{
@@ -39,7 +42,7 @@ const DeliveryScreen = () => {
                 <Progress.Bar size={30} color='#0C4F39' indeterminate={true}/>
 
                 <Text className="mt-3 text-gray-500">
-                    Your order at {restaurant.title} is being prepared
+                    {t('Your_order_at')} {restaurant.title} {t('is_being_prepared')}
                 </Text>
             </View>
         </SafeAreaView>
@@ -75,11 +78,11 @@ const DeliveryScreen = () => {
             />
 
             <View className="flex-1">
-                <Text className="text-lg">Deliver 1</Text>
-                <Text className="text-gray-400">Your Rider</Text>
+                <Text className="text-lg">{t('Deliver_1')}</Text>
+                <Text className="text-gray-400">{t('Your_Rider')}</Text>
             </View>
 
-            <Text className="text-[#0C4F39] text-lg mr-5 font-bold">Call</Text>
+            <Text className="text-[#0C4F39] text-lg mr-5 font-bold">{t('Call')}</Text>
         </SafeAreaView>
     </View>
   )
