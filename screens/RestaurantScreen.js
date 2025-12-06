@@ -90,38 +90,52 @@ const RestaurantScreen = () => {
     fetchCategories();
   }, [dishes]);
 
+  // Створюємо refs для категорій при зміні categories
+  useEffect(() => {
+    const refs = {};
+    categories.forEach(category => {
+      refs[category.name] = refs[category.name] || React.createRef();
+    });
+    categoryRefs.current = refs;
+  }, [categories]);
+
+  // Очищаємо refs при зміні категорій
+  useEffect(() => {
+    categoryRefs.current = {};
+  }, [categories]);
+
   const handleCategoryPress = (categoryName) => {
     setActiveCategory(categoryName);
     const node = categoryRefs.current[categoryName];
     const scrollNode = findNodeHandle(scrollViewRef.current);
-    if (node && scrollNode) {
+    // Додаткова перевірка на валідність node
+    if (typeof node === 'number' && scrollNode) {
       UIManager.measureLayout(
         node,
         scrollNode,
-        (left, top, width, height) => {
-          scrollViewRef.current.scrollTo({ y: top - 125, animated: true });
-        },
-        (error) => console.warn('measureLayout error', error)
+        (error) => console.warn('measureLayout error', error),
+        (x, y) => {
+          scrollViewRef.current.scrollTo({ y: y - 125, animated: true });
+        }
       );
     }
   };
 
   const handleScroll = (event) => {
     const contentOffsetY = event.nativeEvent.contentOffset.y;
-  
+    const scrollNode = findNodeHandle(scrollViewRef.current);
     Object.keys(categoryRefs.current).forEach((categoryName) => {
       const node = categoryRefs.current[categoryName];
-      const scrollNode = findNodeHandle(scrollViewRef.current);
-      if (!node || !scrollNode) return;
+      if (typeof node !== 'number' || !scrollNode) return;
       UIManager.measureLayout(
         node,
         scrollNode,
-        (left, top, width, height) => {
-          if (top < contentOffsetY + 300 && top + height > contentOffsetY + 300) {
+        (error) => {},
+        (x, y, width, height) => {
+          if (y < contentOffsetY + 300 && y + height > contentOffsetY + 300) {
             setActiveCategory(categoryName);
           }
-        },
-        (error) => {} // можна логувати помилку при потребі
+        }
       );
     });
   };
@@ -186,32 +200,40 @@ const RestaurantScreen = () => {
         </View>
 
         {/* Список страв */}
-        <ScrollView className="top-5 pb-10">
-          {categories.map((category) => (
-            <View
-              key={category._id}
-              ref={el => {
-                // зберігаємо нативний handle для UIManager.measureLayout
-                categoryRefs.current[category.name] = findNodeHandle(el);
-              }}
-              className="mb-0"
-            >
-              <Text className="font-bold text-2xl ml-3 pb-4 pt-4 px-4">{category.name}</Text>
-              <View className="flex-row flex-wrap justify-between px-4">
-                {groupedDishes[category.name]?.map(dish => (
-                  <DishRow
-                    key={dish._id}
-                    id={dish._id}
-                    name={dish.name}
-                    description={dish.short_description}
-                    price={dish.price}
-                    image={dish.image}
-                  />
-                ))}
-              </View>
+        {categories.map((category) => (
+          <View
+            key={category._id}
+            ref={node => {
+              // Записуємо тільки якщо node валідний
+              if (node) {
+                categoryRefs.current[category.name] = findNodeHandle(node);
+              }
+            }}
+            className="mb-0"
+          >
+            <Text className="font-bold text-2xl ml-3 pb-4 pt-4 px-4">{category.name}</Text>
+            <View className="flex-row flex-wrap justify-between px-4">
+              {groupedDishes[category.name]?.map(dish => (
+                <DishRow
+                  key={dish._id}
+                  id={dish._id}
+                  name={dish.name}
+                  description={dish.short_description}
+                  price={dish.price}
+                  image={dish.image}
+                />
+              ))}
             </View>
-          ))}
-        </ScrollView>
+          </View>
+        ))}
+
+        {/* 
+          Для підсвічування активної категорії:
+          Переконайтесь, що у FoodCategoriesForRestScreen використовується activeCategory для стилізації.
+          Наприклад:
+            style={{ opacity: activeCategory === category.name ? 1 : 0.5 }}
+          або змінюйте фон/колір.
+        */}
       </ScrollView>
     </>
   );
