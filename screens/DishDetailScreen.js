@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Image, ScrollView, Alert, Dimensions } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectRestaurant } from '../features/restaurantSlice';
 import { addToBasket, removeFromBasket, selectBasketItemsWithId, selectBasketTotal, clearBasket } from '../features/basketSlice';
 import { ArrowLeftIcon, MinusCircleIcon, PlusCircleIcon, XMarkIcon } from 'react-native-heroicons/outline';
 // import Currency from 'react-currency-formatter';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'; 
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, auth } from '../firebase'; // Ensure Firebase is correctly configured
 import { urlFor } from '../sanity';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,7 @@ const DishDetailScreen = () => {
   const dispatch = useDispatch();
   const route = useRoute();
   const { params: { id, imgUrl, title, price, description } } = route;
-  
+
   const [quantity, setQuantity] = useState(1); // State to manage dish quantity
 
 
@@ -81,88 +81,94 @@ const DishDetailScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white ">
-        <TouchableOpacity 
-            onPress={navigation.goBack} 
-            className="absolute top-7 right-5 p-2 bg-gray-100 rounded-full z-50"
-        >
-            <XMarkIcon color="#0C4F39" size={20}  />
-        </TouchableOpacity>
+      <TouchableOpacity
+        onPress={navigation.goBack}
+        className="absolute top-7 right-5 p-2 bg-gray-100 rounded-full z-50"
+      >
+        <XMarkIcon color="#0C4F39" size={20} />
+      </TouchableOpacity>
 
-        <ScrollView>
-          {/* Dish Image */}
-          <View className="relative">
-            <Image 
-              source={{ uri: urlFor(imgUrl).url() }} 
-              className="w-full h-56 bg-gray-300"
-            />
-          </View>
+      <ScrollView>
+        {/* Dish Image */}
+        <View className="relative">
+          <Image
+            source={{ uri: urlFor(imgUrl).url() }}
+            className="w-full h-56 bg-gray-300"
+          />
+        </View>
 
-          {/* Dish Details */}
-          <View className="bg-white -mt-5 p-5 rounded-t-3xl shadow-lg">
-            <View className="flex-1 flex-row justify-between">
-                {/* Quantity Selector */}
-                <Text className="text-3xl font-bold">{title}</Text>
-                <View className="bg-white px-4">
-             <View className="flex-row items-center space-x-2 pb-3">
-                 <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
-             <MinusCircleIcon
+        {/* Dish Details */}
+        <View className="bg-white -mt-5 p-5 rounded-t-3xl shadow-lg">
+          <View className="flex-1 flex-row justify-between">
+            {/* Quantity Selector */}
+            <Text className="text-3xl font-bold">{title}</Text>
+            <View className="bg-white px-4">
+              <View className="flex-row items-center space-x-2 pb-3">
+                <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
+                  <MinusCircleIcon
                     color={items.length > 0 ? "#0C4F39" : "gray"}
                     size={40}
-                />
+                  />
                 </TouchableOpacity>
 
-            <Text>{items.length}</Text>
+                <Text>{items.length}</Text>
 
-            <TouchableOpacity onPress={addItemToBasket}>
-              <PlusCircleIcon size={40} color="#0C4F39" />
+                <TouchableOpacity onPress={addItemToBasket}>
+                  <PlusCircleIcon size={40} color="#0C4F39" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <Text className="text-xl text-gray-700 mt-2">
+            {/* <Currency quantity={price} currency="UAH" /> */}
+            {price} UAH
+          </Text>
+          <Text className="text-gray-600 mt-4">{description}</Text>
+        </View>
+
+        {/* Choose Additions Section */}
+        <View className="p-5 border-t border-b border-gray-300 bg-white">
+          <Text className="text-lg font-semibold">{t("Choose_Additions")}</Text>
+          {/* Placeholder for additions (to be implemented) */}
+          <Text className="text-gray-500 mt-2">{t("Add_your_favorite_extras_here")}</Text>
+        </View>
+
+
+      </ScrollView>
+
+      {/* Place Order Button */}
+      {quantity > 0 && (
+        <View className="p-5 bg-white border-t border-gray-300 flex-row justify-between space-x-5">
+          <View className="flex bg-[#1b513fdc] rounded-xl p-3" style={{
+            height: Dimensions.get('window').height * 0.08,
+            maxHeight: Dimensions.get('window').height * 0.08,
+          }}>
+            <Text className="text-xs text-gray-200 text-center">
+              {t("Total_price")}
+            </Text>
+            <Text className=" text-white font-bold ">
+              <Text className="text-xl">
+                {basketTotal}
+              </Text> UAH
+            </Text>
+          </View>
+
+          <View className="flex-1">
+            {/* Add to Basket Button */}
+            <TouchableOpacity
+              onPress={handleAddToBasket}
+              className="mx-5  rounded-lg bg-[#30343F] p-4 py-4 justify-center"
+              style={{
+                height: Dimensions.get('window').height * 0.08,
+              }}
+            >
+              <Text className="text-center text-white text-lg">{t("Add_to_Basket")}</Text>
             </TouchableOpacity>
           </View>
+
         </View>
-            </View>
-            
-            <Text className="text-xl text-gray-700 mt-2">
-              {/* <Currency quantity={price} currency="UAH" /> */}
-              {price} UAH
-            </Text>
-            <Text className="text-gray-600 mt-4">{description}</Text>
-          </View>
-
-          {/* Choose Additions Section */}
-          <View className="p-5 border-t border-b border-gray-300 bg-white">
-            <Text className="text-lg font-semibold">{t("Choose_Additions")}</Text>
-            {/* Placeholder for additions (to be implemented) */}
-            <Text className="text-gray-500 mt-2">{t("Add_your_favorite_extras_here")}</Text>
-          </View>
-
-          
-        </ScrollView>
-
-        {/* Place Order Button */}
-        {quantity > 0 && (
-          <View className="p-5 bg-white border-t border-gray-300 flex-row justify-between space-x-5">
-                <View className="flex bg-[#1b513fdc] rounded-xl p-3">
-                    <Text className="text-xs text-gray-200 text-center">
-                        {t("Total_price")}
-                    </Text>
-                    <Text className=" text-white font-bold ">
-                        <Text className="text-xl">
-                            {basketTotal}
-                        </Text> UAH
-                    </Text>
-                </View>
-
-                <View className="flex-1">
-                    {/* Add to Basket Button */}
-                    <TouchableOpacity 
-                        onPress={handleAddToBasket} 
-                        className="mx-5  rounded-lg bg-[#30343F] p-4 py-4 justify-center"
-                    >
-                        <Text className="text-center text-white text-lg">{t("Add_to_Basket")}</Text>
-                    </TouchableOpacity>
-                </View>
-                
-          </View>
-        )}
+      )}
     </SafeAreaView>
   );
 };
