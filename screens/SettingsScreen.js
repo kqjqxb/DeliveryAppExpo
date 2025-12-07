@@ -32,10 +32,10 @@ const SettingsScreen = () => {
   const [emailPending, setEmailPending] = useState(null); // for pending email verification
   const [userLocation, setUserLocation] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [selectedAddress, setSelectedAddress] = useState(''); // Додаємо стан для адреси
+  const [selectedAddress, setSelectedAddress] = useState('');
   const { t } = useTranslation();
 
-  // Fetch user name, email, and phone from Firestore/Auth
+  // Fetch user name, email, phone, and address from Firestore/Auth
   const fetchName = async () => {
     const user = auth.currentUser;
     console.log('fetchName: currentUser', user);
@@ -47,15 +47,24 @@ const SettingsScreen = () => {
           setUserName(userDoc.data().name || '');
           setUserEmail(user.email || '');
           setUserPhone(userDoc.data().phone || '');
-          console.log('fetchName: name', userDoc.data().name);
+          // Fetch address if exists
+          if (userDoc.data().address) {
+            console.log('fetchName: fetched address from Firestore:', userDoc.data().address);
+            setSelectedAddress(userDoc.data().address);
+          } else {
+            console.log('fetchName: no address in Firestore');
+            setSelectedAddress('');
+          }
         } else {
           setUserName('');
           setUserEmail('');
           setUserPhone('');
+          setSelectedAddress('');
           console.log('fetchName: no userDoc');
         }
       } catch (err) {
         console.log('fetchName: error', err);
+        setSelectedAddress('');
       }
     }
   };
@@ -208,21 +217,30 @@ const SettingsScreen = () => {
         if (addr.city) addressString += `, ${addr.city}`;
         if (addr.region) addressString += `, ${addr.region}`;
         if (addr.postalCode) addressString += `, ${addr.postalCode}`;
-        setSelectedAddress(addressString.trim());
+        return addressString.trim();
       } else {
-        setSelectedAddress('');
+        return '';
       }
     } catch (err) {
-      setSelectedAddress('');
+      return '';
     }
   };
 
-  // Зберегти вибрану адресу (можна додати збереження в Firestore)
-  const handleSaveAddress = (location) => {
+  // Зберегти вибрану адресу у Firestore
+  const handleSaveAddress = async (location) => {
     setSelectedLocation(location);
     setMapModalVisible(false);
-    fetchAddressFromCoords(location); // Отримуємо адресу словами
-    // TODO: Зберегти адресу в Firestore, якщо потрібно
+    const addressString = await fetchAddressFromCoords(location);
+    setSelectedAddress(addressString);
+    // Save to Firestore
+    const user = auth.currentUser;
+    if (user) {
+      try {
+        await setDoc(doc(db, 'Users', user.uid), { address: addressString }, { merge: true });
+      } catch (err) {
+        // Optionally show error
+      }
+    }
   };
 
   const checkCurrentPassword = async (password) => {
