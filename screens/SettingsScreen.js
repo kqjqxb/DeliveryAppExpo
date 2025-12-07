@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Linking, ScrollView, Image } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity, Linking, ScrollView, Image, Dimensions } from 'react-native';
 import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
@@ -10,6 +10,8 @@ import LanguageModal from '../components/LanguageModal'; // Імпортуємо
 import NameModal from '../components/NameModal'; // New modal for name change
 import PasswordModal from '../components/PasswordModal'; // New modal for password change
 import PhoneModal from '../components/PhoneModal'; // New modal for phone change
+import MapModal from '../components/MapModal'; // Додаємо імпорт MapModal
+import * as Location from 'expo-location'; // Додаємо імпорт для доступу до локації
 import '../i18n';
 import { auth, db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
@@ -23,10 +25,14 @@ const SettingsScreen = () => {
   const [isEmailModalVisible, setEmailModalVisible] = useState(false);
   const [isPasswordModalVisible, setPasswordModalVisible] = useState(false);
   const [isPhoneModalVisible, setPhoneModalVisible] = useState(false);
+  const [isMapModalVisible, setMapModalVisible] = useState(false);
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPhone, setUserPhone] = useState('');
   const [emailPending, setEmailPending] = useState(null); // for pending email verification
+  const [userLocation, setUserLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(''); // Додаємо стан для адреси
   const { t } = useTranslation();
 
   // Fetch user name, email, and phone from Firestore/Auth
@@ -165,6 +171,60 @@ const SettingsScreen = () => {
     setPhoneModalVisible(false);
   };
 
+  // Отримати поточну локацію користувача
+  const fetchUserLocation = async () => {
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        alert(t('location_permission_denied'));
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+    } catch (err) {
+      alert(t('location_fetch_error'));
+    }
+  };
+
+  // Відкрити модалку з картою
+  const handleOpenMapModal = async () => {
+    await fetchUserLocation();
+    setMapModalVisible(true);
+  };
+
+  // Отримати адресу з координат
+  const fetchAddressFromCoords = async (location) => {
+    try {
+      const results = await Location.reverseGeocodeAsync(location);
+      if (results && results.length > 0) {
+        const addr = results[0];
+        // Формуємо рядок адреси
+        let addressString = '';
+        if (addr.street) addressString += addr.street;
+        if (addr.name && addr.name !== addr.street) addressString += ` ${addr.name}`;
+        if (addr.city) addressString += `, ${addr.city}`;
+        if (addr.region) addressString += `, ${addr.region}`;
+        if (addr.postalCode) addressString += `, ${addr.postalCode}`;
+        setSelectedAddress(addressString.trim());
+      } else {
+        setSelectedAddress('');
+      }
+    } catch (err) {
+      setSelectedAddress('');
+    }
+  };
+
+  // Зберегти вибрану адресу (можна додати збереження в Firestore)
+  const handleSaveAddress = (location) => {
+    setSelectedLocation(location);
+    setMapModalVisible(false);
+    fetchAddressFromCoords(location); // Отримуємо адресу словами
+    // TODO: Зберегти адресу в Firestore, якщо потрібно
+  };
+
   const checkCurrentPassword = async (password) => {
     const user = auth.currentUser;
     if (!user || !password) return false;
@@ -225,7 +285,12 @@ const SettingsScreen = () => {
                 value: userEmail,
                 icon: <EnvelopeIcon size={24} color="#0C4F39" />,
               },
-              { label: t('my_address'), icon: <MapPinIcon size={24} color="#0C4F39" /> },
+              { 
+                label: t('my_address'), 
+                icon: <MapPinIcon size={24} color="#0C4F39" />, 
+                onPress: handleOpenMapModal, 
+                value: selectedAddress || (selectedLocation ? `${selectedLocation.latitude.toFixed(5)}, ${selectedLocation.longitude.toFixed(5)}` : undefined) 
+              },
               { label: t('notifications'), icon: <BellIcon size={24} color="#0C4F39" /> },
               { label: t('password'), icon: <LockClosedIcon size={24} color="#0C4F39" />, onPress: () => setPasswordModalVisible(true) },
               { label: t('language'), icon: <GlobeAltIcon size={24} color="#0C4F39" />, onPress: () => setModalVisible(true) }, // Відкриття модального вікна
@@ -234,14 +299,17 @@ const SettingsScreen = () => {
                 key={index}
                 className="flex-row items-center justify-between mb-5 border-b border-gray-200 pb-3"
                 onPress={item.onPress}
-                // disabled={!item.onPress}
                 disabled={item.value === userEmail}
               >
                 <View className="flex-row items-center ">
                   {item.icon}
-                  <Text className="ml-3 text-lg font-semibold text-gray-700">{item.label}</Text>
+                  <Text className="ml-3 text-lg font-semibold text-gray-700" style={{
+                    fontSize: Dimensions.get('window').width * 0.04,
+                  }}>{item.label}</Text>
                 </View>
-                {item.value && <Text className="text-gray-500">{item.value}</Text>}
+                {item.value && <Text className="text-gray-500" adjustsFontSizeToFit={true} numberOfLines={item.value === userEmail ? 1 : 2} style={{
+                  maxWidth: '48%',
+                }}>{item.value}</Text>}
               </TouchableOpacity>
             ))}
           </View>
@@ -265,6 +333,12 @@ const SettingsScreen = () => {
           onClose={() => setPhoneModalVisible(false)}
           onSave={handleSavePhone}
           initialPhone={userPhone}
+        />
+        <MapModal
+          isVisible={isMapModalVisible}
+          onClose={() => setMapModalVisible(false)}
+          onSave={handleSaveAddress}
+          initialLocation={userLocation}
         />
 
         {/* Використовуємо компонент LanguageModal */}
