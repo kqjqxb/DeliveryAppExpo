@@ -20,6 +20,7 @@ const RestaurantScreen = () => {
   const [groupedDishes, setGroupedDishes] = useState({});
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(null);
+  const [isSticky, setIsSticky] = useState(false);
 
   const { t } = useTranslation();
 
@@ -124,6 +125,8 @@ const RestaurantScreen = () => {
   const handleScroll = (event) => {
     const contentOffsetY = event.nativeEvent.contentOffset.y;
     const scrollNode = findNodeHandle(scrollViewRef.current);
+    // stickyHeaderIndices={[2]} => індекс 2 - це категорії
+    setIsSticky(contentOffsetY >= 1); // якщо скролимо вниз, стає sticky
     Object.keys(categoryRefs.current).forEach((categoryName) => {
       const node = categoryRefs.current[categoryName];
       if (typeof node !== 'number' || !scrollNode) return;
@@ -155,6 +158,7 @@ const RestaurantScreen = () => {
         scrollEventThrottle={16}
         stickyHeaderIndices={[2]}
         onScroll={handleScroll}
+        showsVerticalScrollIndicator={false}
       >
         <View className="relative">
           <Image source={{ uri: urlFor(imgUrl).url() }} className="w-full h-56 bg-gray-300" />
@@ -196,14 +200,14 @@ const RestaurantScreen = () => {
         </View>
 
         {/* Фіксоване меню категорій */}
-        <View className="bg-white pt-7 z-10">
+        <View className={`bg-white z-10 ${isSticky ? 'pt-10' : 'pt-1'}`}>
           <FoodCategoriesForRestScreen
             categories={categories}
             onCategoryPress={handleCategoryPress}
             activeCategory={activeCategory}
           />
         </View>
-
+        
         {/* Список страв */}
         {categories.map((category) => (
           <View

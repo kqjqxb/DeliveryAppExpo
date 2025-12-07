@@ -138,6 +138,7 @@ const CompletedProfileScreen = () => {
                 ) : (
                     <ScrollView
                         className="divide-y divide-gray-200"
+                        showsVerticalScrollIndicator={false}
                         refreshControl={
                             <RefreshControl
                                 refreshing={refreshing}

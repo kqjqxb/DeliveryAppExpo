@@ -88,7 +88,7 @@ const DishDetailScreen = () => {
         <XMarkIcon color="#0C4F39" size={20} />
       </TouchableOpacity>
 
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {/* Dish Image */}
         <View className="relative">
           <Image
@@ -101,20 +101,26 @@ const DishDetailScreen = () => {
         <View className="bg-white -mt-5 p-5 rounded-t-3xl shadow-lg">
           <View className="flex-1 flex-row justify-between">
             {/* Quantity Selector */}
-            <Text className="text-3xl font-bold">{title}</Text>
+            <Text className="text-3xl font-bold" style={{
+              maxWidth: Dimensions.get('window').width * 0.6,
+              fontSize: Dimensions.get('window').width * 0.064,
+            }}>{title}</Text>
             <View className="bg-white px-4">
               <View className="flex-row items-center space-x-2 pb-3">
                 <TouchableOpacity disabled={!items.length} onPress={removeItemFromBasket}>
                   <MinusCircleIcon
                     color={items.length > 0 ? "#0C4F39" : "gray"}
-                    size={40}
+                    size={Dimensions.get('window').width * 0.1}
                   />
                 </TouchableOpacity>
 
-                <Text>{items.length}</Text>
+                <Text style={{
+                  fontWeight: '600',
+                  fontSize: Dimensions.get('window').width * 0.04,
+                }}>{items.length}</Text>
 
                 <TouchableOpacity onPress={addItemToBasket}>
-                  <PlusCircleIcon size={40} color="#0C4F39" />
+                  <PlusCircleIcon size={Dimensions.get('window').width * 0.1} color="#0C4F39" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -163,7 +169,9 @@ const DishDetailScreen = () => {
                 height: Dimensions.get('window').height * 0.08,
               }}
             >
-              <Text className="text-center text-white text-lg">{t("Add_to_Basket")}</Text>
+              <Text className="text-center text-white text-lg" style={{
+                fontWeight: '500',
+              }}>{t("Add_to_Basket")}</Text>
             </TouchableOpacity>
           </View>
 
