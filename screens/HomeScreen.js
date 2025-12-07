@@ -77,7 +77,7 @@
 //                 {/* Categories */}
 //                 <Categories />
 
-                
+
 
 
 //                 {/* Featured Row */}
@@ -137,13 +137,13 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const { t } = useTranslation();
 
-  
 
-const onRefresh = async () => {
-  setRefreshing(true);
-  try {
-    // Перезавантаження даних
-    const data = await client.fetch(`
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      // Перезавантаження даних
+      const data = await client.fetch(`
         *[_type == "featured"] {
             ...,
             restaurants[]->{
@@ -151,22 +151,22 @@ const onRefresh = async () => {
                 dishes[]->
             }
         }`
-    );
-    console.log("Fetched data:", data);
-    setFeaturedCategories(data);
-  } catch (error) {
-    console.error("Failed to fetch data:", error);
-  } finally {
-    setRefreshing(false);
-  }
-};
+      );
+      console.log("Fetched data:", data);
+      setFeaturedCategories(data);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
 
-    useLayoutEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
-        headerShown: false,
+      headerShown: false,
     });
-}, []);
+  }, []);
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -196,8 +196,8 @@ const onRefresh = async () => {
             }
         }`
     ).then(data => {
-        console.log("Fetched data:", data);
-        setFeaturedCategories(data);
+      console.log("Fetched data:", data);
+      setFeaturedCategories(data);
     });
   }, []);
 
@@ -210,7 +210,7 @@ const onRefresh = async () => {
   }
 
   return (
-    <SafeAreaView className="bg-white pt-5" style={{paddingBottom: 120}}>
+    <SafeAreaView className="bg-white pt-5" style={{ paddingBottom: 120 }}>
       {/* Header */}
       <View className="flex-row pb-3 items-center mx-4 space-x-2">
         <Image
@@ -219,10 +219,12 @@ const onRefresh = async () => {
         />
         <View className="flex-1">
           <Text className="font-bold text-gray-400 text-xs">{t("deliver_now")}</Text>
-          <Text className="font-bold text-xl">
-            {t("current_location")}
-            <ChevronDownIcon size={20} color="#0C4F39" />
-          </Text>
+          <TouchableOpacity activeOpacity={0.59}>
+            <Text className="font-bold text-xl">
+              {t("current_location")}
+              <ChevronDownIcon size={20} color="#0C4F39" />
+            </Text>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={handleUserIconPress}>
           <UserIcon size={35} color="#0C4F39" />
@@ -239,13 +241,13 @@ const onRefresh = async () => {
           />
         </View>
         <AdjustmentsVerticalIcon color="#0C4F39" />
-        
+
       </View>
       <View className="pb-3">
         {/* Categories */}
         <Categories />
       </View>
-      
+
 
       {/* Body */}
       <ScrollView
@@ -259,11 +261,11 @@ const onRefresh = async () => {
           />
         }
       >
-        
+
 
         {/* Featured Row */}
         {featuredCategories?.map(category => (
-          <FeaturedRow 
+          <FeaturedRow
             key={category._id}
             id={category._id}
             title={category.name}
@@ -271,9 +273,9 @@ const onRefresh = async () => {
           />
         ))}
 
-          
 
-          
+
+
 
       </ScrollView>
     </SafeAreaView>
