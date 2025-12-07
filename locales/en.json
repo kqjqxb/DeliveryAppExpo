@@ -136,5 +136,6 @@
   "invalid_email_format": "Invalid email format",
   "check_your_email_for_verification_link": "Check your email for the verification link",
   "email_is_current": "Email is currently in use",
-  "loading_location": "Loading location..."
+  "loading_location": "Loading location...",
+  "no_restaurants_found": "No restaurants found",
 }

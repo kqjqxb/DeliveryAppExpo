@@ -119,7 +119,7 @@
 
 
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { View, Text, Image, TextInput, ScrollView, ActivityIndicator, TouchableOpacity, RefreshControl, Linking } from 'react-native';
+import { View, Text, Image, TextInput, ScrollView, ActivityIndicator, TouchableOpacity, RefreshControl, Linking, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UserIcon, ChevronDownIcon, MagnifyingGlassIcon, AdjustmentsVerticalIcon } from "react-native-heroicons/outline";
@@ -129,6 +129,8 @@ import client from '../sanity/sanityClient';
 import { auth } from '../firebase'; // Імпортуй свій конфіг Firebase
 import { useTranslation } from 'react-i18next';
 import * as Location from 'expo-location'; // Додаємо імпорт для локації
+import DishRow from '../components/DishRow';
+import ResturantCard from '../components/ResturantCard';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -137,6 +139,8 @@ const HomeScreen = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [currentAddress, setCurrentAddress] = useState('');
   const [locationLoading, setLocationLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const { t } = useTranslation();
 
 
@@ -239,6 +243,29 @@ const HomeScreen = () => {
     fetchCurrentAddress();
   }, []);
 
+  // Фільтрація ресторанів по назві
+  useEffect(() => {
+    if (searchText.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+    // Збираємо всі ресторани з featuredCategories
+    const allRestaurants = featuredCategories.flatMap(fc => fc.restaurants || []);
+    // Унікалізуємо ресторани по _id
+    const uniqueRestaurantsMap = {};
+    allRestaurants.forEach(r => {
+      if (r && r._id) {
+        uniqueRestaurantsMap[r._id] = r;
+      }
+    });
+    const uniqueRestaurants = Object.values(uniqueRestaurantsMap);
+    // Фільтруємо по назві
+    const filtered = uniqueRestaurants.filter(r =>
+      r.name && r.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+    setSearchResults(filtered);
+  }, [searchText, featuredCategories]);
+
   if (loading) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center">
@@ -289,6 +316,8 @@ const HomeScreen = () => {
           <TextInput
             placeholder={t("restaurants_and_cuisines")}
             keyboardType="default"
+            value={searchText}
+            onChangeText={setSearchText}
           />
         </View>
         <AdjustmentsVerticalIcon color="#0C4F39" />
@@ -313,20 +342,55 @@ const HomeScreen = () => {
         }
       >
 
+        {/* If search is empty, show Featured categories */}
+        {searchText.trim() === '' && (
+          <>
+            {featuredCategories?.map(category => (
+              <FeaturedRow
+                key={`featured-${category._id}`}
+                id={category._id}
+                title={category.name}
+                description={category.short_description}
+              />
+            ))}
+          </>
+        )}
 
-        {/* Featured Row */}
-        {featuredCategories?.map(category => (
-          <FeaturedRow
-            key={category._id}
-            id={category._id}
-            title={category.name}
-            description={category.short_description}
-          />
-        ))}
-
-
-
-
+        {/* If search is NOT empty, show only search results as ResturantCard */}
+        {searchText.trim() !== '' && (
+          <View className="flex-row flex-wrap px-4" style={{
+            marginTop: Dimensions.get('window').height * 0.025,
+            flex: 1,
+          }}>
+            {searchResults.length === 0 ? (
+              <Text className="text-gray-500 w-full" style={{
+                textAlign: 'center',
+                marginTop: Dimensions.get('window').height * 0.1,
+              }}>{t("no_restaurants_found")}</Text>
+            ) : (
+              searchResults.map((r, idx) => (
+                <ResturantCard
+                  key={`search-${r._id}-${idx}`}
+                  id={r._id}
+                  imgUrl={r.image}
+                  title={r.name}
+                  rating={r.rating}
+                  genre={r.genre}
+                  address={r.address}
+                  short_description={r.short_description}
+                  categories_of_dishes={r.categories_of_dishes}
+                  dishes={r.dishes}
+                  long={r.long}
+                  lat={r.lat}
+                  phone={r.phone}
+                  google_map_link={r.google_map_link}
+                  opening_hours={r.opening_hours}
+                  extras={r.extras}
+                />
+              ))
+            )}
+          </View>
+        )}
 
       </ScrollView>
     </SafeAreaView>
