@@ -27,7 +27,7 @@ const ProfileScreen = () => {
             <View className="items-center justify-center pt-10">
                 <View className="pb-3" style={{ paddingTop: 80 }}>
                     <Image className="items-center w-20 h-20 rounded-xl"
-                        source={require("../assets/nearBy-color-logo.png")}
+                        source={require("../assets/nearbyLogo.png")}
                     />
                 </View>
 
@@ -43,7 +43,7 @@ const ProfileScreen = () => {
                 </View>
             </View>
 
-            <View className="bg-[#30343F] p-7" style={{ position: "absolute", bottom: 0, width: '100%', paddingBottom: 100, paddingTop: 50 }}>
+            <View className="bg-[#0C4F39] p-7" style={{ position: "absolute", bottom: 0, width: '100%', paddingBottom: 100, paddingTop: 50 }}>
                 <TouchableOpacity className="p-3 my-2 bg-white rounded-xl flex-row items-center">
                     <Text className="flex-1">{t("Continue_with_Apple")}</Text>
                     <Image className="items-center w-7 h-7 mr-1"

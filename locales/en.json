@@ -130,5 +130,10 @@
   "passwords_do_not_match": "Passwords do not match!",
   "enter_new_passwords": "Enter new passwords",
   "wrong_current_password": "Wrong current password",
-  "next": "Next"
+  "next": "Next",
+  "phone_format_info": "Phone format: +38 0XX XXX XXXX",
+
+  "invalid_email_format": "Invalid email format",
+  "check_your_email_for_verification_link": "Check your email for the verification link",
+  "email_is_current": "Email is currently in use"
 }

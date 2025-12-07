@@ -64,7 +64,7 @@ const TestScreen1 = ({ navigation }) => {
         return;
       }
 
-      Alert.alert(`${t("Success")}`, `${t("Logged_in_successfully")}`);
+      // Alert.alert(`${t("Success")}`, `${t("Logged_in_successfully")}`);
       navigation.replace('CompletedProfile');
     } catch (error) {
       Alert.alert(`${t("Error")}`, error.message);

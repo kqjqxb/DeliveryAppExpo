@@ -8,10 +8,9 @@ import i18n from 'i18next'; // Імпорт для i18next
 import { useTranslation } from 'react-i18next';
 import LanguageModal from '../components/LanguageModal'; // Імпортуємо компонент LanguageModal
 import NameModal from '../components/NameModal'; // New modal for name change
-import EmailModal from '../components/EmailModal'; // New modal for email change
 import PasswordModal from '../components/PasswordModal'; // New modal for password change
 import PhoneModal from '../components/PhoneModal'; // New modal for phone change
-import '../i18n'; 
+import '../i18n';
 import { auth, db } from '../firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { updateEmail, sendEmailVerification, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
@@ -67,7 +66,7 @@ const SettingsScreen = () => {
   const openLink = async () => {
     const url = 'https://www.instagram.com/kqjqxb';
     const supported = await Linking.canOpenURL(url);
-    
+
     if (supported) {
       await Linking.openURL(url);
     } else {
@@ -191,7 +190,7 @@ const SettingsScreen = () => {
       <ScrollView className="flex-1">
         {/* Top image */}
         <View className="relative h-72">
-          <Image 
+          <Image
             source={require("../assets/dinner.jpg")}
             className="h-full w-full object-cover"
             blurRadius={0}
@@ -209,33 +208,34 @@ const SettingsScreen = () => {
 
             {/* Icon list */}
             {[
-              { 
-                label: t('name'), 
-                value: userName || t('guest'), 
-                icon: <UserIcon size={24} color="#0C4F39" />, 
-                onPress: () => setNameModalVisible(true) 
+              {
+                label: t('name'),
+                value: userName || t('guest'),
+                icon: <UserIcon size={24} color="#0C4F39" />,
+                onPress: () => setNameModalVisible(true)
               },
-              { 
-                label: t('phone_number'), 
-                value: userPhone, 
-                icon: <PhoneIcon size={24} color="#0C4F39" />, 
+              {
+                label: t('phone_number'),
+                value: userPhone,
+                icon: <PhoneIcon size={24} color="#0C4F39" />,
                 onPress: () => setPhoneModalVisible(true)
               },
-              { 
-                label: t('email'), 
-                value: userEmail, 
-                icon: <EnvelopeIcon size={24} color="#0C4F39" />, 
-                onPress: () => setEmailModalVisible(true)
+              {
+                label: t('email'),
+                value: userEmail,
+                icon: <EnvelopeIcon size={24} color="#0C4F39" />,
               },
               { label: t('my_address'), icon: <MapPinIcon size={24} color="#0C4F39" /> },
               { label: t('notifications'), icon: <BellIcon size={24} color="#0C4F39" /> },
               { label: t('password'), icon: <LockClosedIcon size={24} color="#0C4F39" />, onPress: () => setPasswordModalVisible(true) },
               { label: t('language'), icon: <GlobeAltIcon size={24} color="#0C4F39" />, onPress: () => setModalVisible(true) }, // Відкриття модального вікна
             ].map((item, index) => (
-              <TouchableOpacity 
-                key={index} 
+              <TouchableOpacity
+                key={index}
                 className="flex-row items-center justify-between mb-5 border-b border-gray-200 pb-3"
                 onPress={item.onPress}
+                // disabled={!item.onPress}
+                disabled={item.value === userEmail}
               >
                 <View className="flex-row items-center ">
                   {item.icon}
@@ -253,12 +253,6 @@ const SettingsScreen = () => {
           onClose={() => setNameModalVisible(false)}
           onSave={handleSaveName}
           initialName={userName}
-        />
-        <EmailModal
-          isVisible={isEmailModalVisible}
-          onClose={() => setEmailModalVisible(false)}
-          onSave={handleSaveEmail}
-          initialEmail={userEmail}
         />
         <PasswordModal
           isVisible={isPasswordModalVisible}
@@ -281,15 +275,15 @@ const SettingsScreen = () => {
 
         {/* Footer */}
         <View className="items-center pt-8">
-          <Text className="text-gray-600 font-medium" style={{fontSize: 12}}>&copy; {t("all_rights_reserved")}</Text>
-          <Text className="font-medium text-gray-600 pt-1" style={{fontSize: 12}}>
+          <Text className="text-gray-600 font-medium" style={{ fontSize: 12 }}>&copy; {t("all_rights_reserved")}</Text>
+          <Text className="font-medium text-gray-600 pt-1" style={{ fontSize: 12 }}>
             {t("created_by")} <Text className="font-bold text-[#0C4F39]">{t("maksym_lomakin")}</Text>
           </Text>
 
           <View className="flex-row items-center pt-1">
-            <Text className="font-semibold text-gray-600" style={{fontSize: 12}}>{t('follow_us')}:</Text>
+            <Text className="font-semibold text-gray-600" style={{ fontSize: 12 }}>{t('follow_us')}:</Text>
             <TouchableOpacity onPress={openLink} className="ml-1">
-              <Image 
+              <Image
                 source={{ uri: "https://i.pinimg.com/564x/5a/95/11/5a9511d5243a7dbd30b3bc0115a9ff0f.jpg" }}
                 className="h-7 w-7 rounded-full"
               />
