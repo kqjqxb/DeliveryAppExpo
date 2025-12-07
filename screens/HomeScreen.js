@@ -128,13 +128,15 @@ import FeaturedRow from '../components/FeaturedRow';
 import client from '../sanity/sanityClient';
 import { auth } from '../firebase'; // Імпортуй свій конфіг Firebase
 import { useTranslation } from 'react-i18next';
+import * as Location from 'expo-location'; // Додаємо імпорт для локації
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [featuredCategories, setFeaturedCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [refreshing, setRefreshing] = useState(false);
+  const [currentAddress, setCurrentAddress] = useState('');
+  const [locationLoading, setLocationLoading] = useState(true);
   const { t } = useTranslation();
 
 
@@ -201,6 +203,42 @@ const HomeScreen = () => {
     });
   }, []);
 
+  // Отримати адресу поточної локації
+  const fetchCurrentAddress = async () => {
+    try {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        setCurrentAddress(t('location_permission_denied'));
+        setLocationLoading(false);
+        return;
+      }
+      let loc = await Location.getCurrentPositionAsync({});
+      let results = await Location.reverseGeocodeAsync({
+        latitude: loc.coords.latitude,
+        longitude: loc.coords.longitude,
+      });
+      if (results && results.length > 0) {
+        const addr = results[0];
+        let addressString = '';
+        if (addr.street) addressString += addr.street;
+        if (addr.name && addr.name !== addr.street) addressString += ` ${addr.name}`;
+        if (addr.city) addressString += `, ${addr.city}`;
+        if (addr.region) addressString += `, ${addr.region}`;
+        if (addr.postalCode) addressString += `, ${addr.postalCode}`;
+        setCurrentAddress(addressString.trim());
+      } else {
+        setCurrentAddress('');
+      }
+    } catch (err) {
+      setCurrentAddress('');
+    }
+    setLocationLoading(false);
+  };
+
+  useEffect(() => {
+    fetchCurrentAddress();
+  }, []);
+
   if (loading) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center">
@@ -219,10 +257,23 @@ const HomeScreen = () => {
         />
         <View className="flex-1">
           <Text className="font-bold text-gray-400 text-xs">{t("deliver_now")}</Text>
-          <TouchableOpacity activeOpacity={0.59}>
-            <Text className="font-bold text-xl">
-              {t("current_location")}
+          <TouchableOpacity activeOpacity={0.59} style={{
+          }}>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+              <Text className="font-bold text-xl flex-row items-center">
+                {t("current_location")}
+              </Text>
               <ChevronDownIcon size={20} color="#0C4F39" />
+            </View>
+            <Text className="text-xs text-gray-500" numberOfLines={2}>
+              {locationLoading
+                ? t("loading_location")
+                : currentAddress
+                  ? currentAddress
+                  : ''}
             </Text>
           </TouchableOpacity>
         </View>
